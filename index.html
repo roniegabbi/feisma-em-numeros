@@ -192,7 +192,7 @@ function render(){
   document.getElementById('h-edicao').textContent=M.edicao;
   document.getElementById('h-periodo').textContent=`${M.periodo} · Santa Maria, RS`;
   const AJ0=Number(M.ajuste_expositores||0), E0=D.visitacao.reduce((a,r)=>a+r.entradas,0);
-  document.getElementById('hero-stats').innerHTML=['expositores','entradas','vendas_amostra','negocios_amostra'].map(k=>{const i=I[k];if(k==='entradas'&&AJ0)return `<div class="stat"><div class="v">${fmt(Math.round(E0*(1+AJ0)))}</div><div class="l">público estimado</div><div class="n">${fmt(E0)} entradas + ${fmt(AJ0*100)}% expositores · ${i.nota||''}</div></div>`;return `<div class="stat"><div class="v">${fmtInd(i)}</div><div class="l">${i.rotulo}</div><div class="n">${i.nota||''}</div></div>`}).join('');
+  document.getElementById('hero-stats').innerHTML=['estandes','entradas','vendas_amostra','negocios_amostra'].map(k=>{const i=I[k];if(k==='entradas'&&AJ0)return `<div class="stat"><div class="v">${fmt(Math.round(E0*(1+AJ0)))}</div><div class="l">público estimado</div><div class="n">${fmt(E0)} entradas + ${fmt(AJ0*100)}% expositores · ${i.nota||''}</div></div>`;return `<div class="stat"><div class="v">${fmtInd(i)}</div><div class="l">${i.rotulo}</div><div class="n">${i.nota||''}</div></div>`}).join('');
   document.getElementById('f-n').textContent=`${M.pesquisa_n_respostas} entrevistas, ${M.pesquisa_n_empresas} empresas`;
   document.getElementById('f-me').textContent=M.margem_erro||'8';document.getElementById('f-atual').textContent=`Dados atualizados em ${M.atualizado_em}.`;
   const prev=M.visitacao_status==='prévia'?`<span class="badge">Prévia · ${M.visitacao_corte}</span>`:'';
@@ -204,7 +204,7 @@ function render(){
   document.getElementById('app').innerHTML=`
   <section class="cap" id="expositores"><div class="wrap">
    ${head('01','expositores','Expositores')}
-   ${kpis(['expositores','estandes','modulos','segmentos','regiao_central','fora_rs'])}
+   ${kpis(['estandes','segmentos','regiao_central','fora_rs'])}
    <div class="grid g21">
     ${card('c-seg','Expositores por segmento','Planilha de estandes da organização · em laranja, o segmento com maiores estandes',560,'Imobiliárias e construtoras são 5,5% dos expositores, mas ocupam 9,5% da área. A cadeia imobiliária e da construção soma 27 expositores (11,5%).')}
     <div style="display:grid;gap:16px;align-content:start">
