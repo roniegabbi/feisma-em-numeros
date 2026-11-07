@@ -148,7 +148,7 @@ function render(){
 
  <div class="row"><div class="note">${(D.textos.cap_conc&&D.textos.cap_conc.corpo)||''} ${(D.textos.lead_satisfacao&&D.textos.lead_satisfacao.corpo)||''}</div></div>
 
- <div class="foot"><div><b>Fontes e método.</b> Expositores: planilha de estandes da organização. Público: painel de ingressos e controle de acesso (consulta de ${M.visitacao_corte}); entradas são registros diários e incluem público e equipe, não pessoas únicas; o público estimado acrescenta 25% referente à circulação de expositores, conforme orientação da organização. Resultados: pesquisa com expositores durante a feira (${M.pesquisa_n_respostas} entrevistas, ${N} empresas); valores por faixa somados pelo ponto médio; margem de erro aproximada de ±18 p.p. Versão completa: feisma-em-numeros.vercel.app</div>
+ <div class="foot"><div><b>Fontes e método.</b> Expositores: planilha de estandes da organização. Público: painel de ingressos e controle de acesso (consulta de ${M.visitacao_corte}); entradas são registros diários e incluem público e equipe, não pessoas únicas; o público estimado acrescenta 25% referente à circulação de expositores, conforme orientação da organização. Resultados: pesquisa com expositores durante a feira (${M.pesquisa_n_respostas} entrevistas, ${N} empresas); valores por faixa somados pelo ponto médio; margem de erro aproximada de ±${M.margem_erro||'8'} p.p. Versão completa: feisma-em-numeros.vercel.app</div>
   <div class="sig"><b>Secretaria de Desenvolvimento Econômico e Inovação</b>Prefeitura Municipal de Santa Maria · RS<br>Realização da Feisma: CACISM · Prefeitura de Santa Maria</div></div>
  </div>`;
  fitMobile();
