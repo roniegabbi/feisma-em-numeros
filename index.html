@@ -135,7 +135,7 @@ footer a{color:#fff}
 
 <footer>
  <div class="wrap">
-  <div><b>Metodologia e fontes.</b> Perfil dos expositores: planilha de estandes da organização (out/2026). Público visitante: painel de ingressos e controle de acesso do evento; entradas são registros diários, incluem público e equipe e não representam pessoas únicas; o público estimado soma 25% às entradas, referente à circulação de expositores, conforme orientação da organização. Resultados: pesquisa com expositores durante a feira (<span id="f-n"></span>); valores por faixa somados pelo ponto médio; margem de erro aproximada de ±18 p.p. Contexto: IBGE (Censo 2022) e Mapa Econômico do RS, Jornal do Comércio (PIB municipal 2021).</div>
+  <div><b>Metodologia e fontes.</b> Perfil dos expositores: planilha de estandes da organização (out/2026). Público visitante: painel de ingressos e controle de acesso do evento; entradas são registros diários, incluem público e equipe e não representam pessoas únicas; o público estimado soma 25% às entradas, referente à circulação de expositores, conforme orientação da organização. Resultados: pesquisa com expositores durante a feira (<span id="f-n"></span>); valores por faixa somados pelo ponto médio; margem de erro aproximada de ±<span id="f-me">8</span> p.p. Contexto: IBGE (Censo 2022) e Mapa Econômico do RS, Jornal do Comércio (PIB municipal 2021).</div>
   <div>Iniciativa da <b>Secretaria de Município de Desenvolvimento Econômico e Inovação</b> · Prefeitura de Santa Maria, RS.<br><br><a href="https://www.santamariaemnumeros.com">♥ Santa Maria em Números ↗</a><br><span id="f-atual"></span></div>
  </div>
 </footer>
@@ -187,7 +187,7 @@ function render(){
   const AJ0=Number(M.ajuste_expositores||0), E0=D.visitacao.reduce((a,r)=>a+r.entradas,0);
   document.getElementById('hero-stats').innerHTML=['expositores','entradas','vendas_amostra','negocios_amostra'].map(k=>{const i=I[k];if(k==='entradas'&&AJ0)return `<div class="stat"><div class="v">${fmt(Math.round(E0*(1+AJ0)))}</div><div class="l">público estimado</div><div class="n">${fmt(E0)} entradas + ${fmt(AJ0*100)}% expositores · ${i.nota||''}</div></div>`;return `<div class="stat"><div class="v">${fmtInd(i)}</div><div class="l">${i.rotulo}</div><div class="n">${i.nota||''}</div></div>`}).join('');
   document.getElementById('f-n').textContent=`${M.pesquisa_n_respostas} entrevistas, ${M.pesquisa_n_empresas} empresas`;
-  document.getElementById('f-atual').textContent=`Dados atualizados em ${M.atualizado_em}.`;
+  document.getElementById('f-me').textContent=M.margem_erro||'8';document.getElementById('f-atual').textContent=`Dados atualizados em ${M.atualizado_em}.`;
   const prev=M.visitacao_status==='prévia'?`<span class="badge">Prévia · ${M.visitacao_corte}</span>`:'';
   const vis=D.visitacao, entr=vis.reduce((a,r)=>a+r.entradas,0), pico=vis.reduce((a,r)=>r.entradas>a.entradas?r:a,vis[0]);
   const AJ=Number(M.ajuste_expositores||0), est=Math.round(entr*(1+AJ));
