@@ -67,9 +67,9 @@ out['retorno_prox'] = vc(col(21), ['Sim', 'Talvez', 'Não'])
 inv_o = ['Até R$ 5 mil', 'R$ 5 a 15 mil', 'R$ 15 a 30 mil', 'R$ 30 a 50 mil', 'Acima de R$ 50 mil']
 inv_mid = {'Até R$ 5 mil': (0, 2500, 5000), 'R$ 5 a 15 mil': (5000, 10000, 15000), 'R$ 15 a 30 mil': (15000, 22500, 30000),
            'R$ 30 a 50 mil': (30000, 40000, 50000), 'Acima de R$ 50 mil': (50000, 60000, 80000)}
-ven_o = ['Não houve vendas', 'Até R$ 10 mil', 'R$ 10 a 50 mil', 'R$ 50 a 100 mil', 'R$ 100 a 500 mil']
+ven_o = ['Não houve vendas', 'Até R$ 10 mil', 'R$ 10 a 50 mil', 'R$ 50 a 100 mil', 'R$ 100 a 500 mil', 'Acima de R$ 500 mil']
 ven_mid = {'Não houve vendas': (0, 0, 0), 'Até R$ 10 mil': (0, 5000, 10000), 'R$ 10 a 50 mil': (10000, 30000, 50000),
-           'R$ 50 a 100 mil': (50000, 75000, 100000), 'R$ 100 a 500 mil': (100000, 300000, 500000)}
+           'R$ 50 a 100 mil': (50000, 75000, 100000), 'R$ 100 a 500 mil': (100000, 300000, 500000), 'Acima de R$ 500 mil': (500000, 600000, 750000)}
 pip_o = ['Nenhum', 'Até R$ 10 mil', 'R$ 10 a 50 mil', 'R$ 50 a 100 mil', 'R$ 100 a 500 mil', 'Acima de R$ 500 mil']
 pip_mid = dict(ven_mid); pip_mid['Nenhum'] = (0, 0, 0); pip_mid['Acima de R$ 500 mil'] = (500000, 600000, 750000)
 out['investimento'] = vc(col(23), inv_o)
