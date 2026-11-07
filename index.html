@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feisma em Números · SMDEI</title>
+<meta name="description" content="Os resultados da Feisma 2026 em números: expositores, público visitante, faturamento, prospecção e parecer econômico. Iniciativa da SMDEI · Prefeitura de Santa Maria.">
+<meta property="og:title" content="Feisma em Números · 2026">
+<meta property="og:description" content="Expositores, público, faturamento e o impacto econômico da Feisma 2026 para Santa Maria e a Região Central.">
+<meta property="og:locale" content="pt_BR">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--navy:#3D1A5B;--navy-2:#5B2785;--blue:#8A2BAE;--blue-soft:#A742C8;--green:#58B947;--gold:#F7A81E;--magenta:#E6188D;--yellow:#FCC700;--sky:#1F9BD4;--orange:#F7901E;--red:#D8434B;--bg:#F7F3FB;--card:#fff;--ink:#241433;--muted:#6E5C82;--line:#EAE2F2;--radius:18px;--shadow:0 12px 40px rgba(61,26,91,.12);--shadow-sm:0 4px 18px rgba(61,26,91,.09)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:120px}
+body{margin:0;font-family:Inter,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+/* header */
+header.top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--line)}
+.brand{display:flex;align-items:center;gap:14px;padding:12px 0}
+.brand img{height:34px}
+.brand b{font-family:Sora,sans-serif;font-size:18px;color:var(--navy);display:block;line-height:1.1}
+.brand small{font-size:12px;color:var(--muted);font-weight:500}
+.brand .back{margin-left:auto;font-size:13px;font-weight:600;color:var(--blue);text-decoration:none;border:1px solid var(--line);padding:7px 14px;border-radius:999px;white-space:nowrap}
+.brand .back:hover{background:var(--bg)}
+nav.chap{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 18px;padding:8px 0 10px;border-top:1px solid var(--line)}
+nav.chap a{font-size:12.5px;font-weight:600;color:#4A3563;text-decoration:none}
+nav.chap a:hover{color:var(--blue)}
+/* hero */
+.hero{background:linear-gradient(125deg,#2A1140 0%,#3D1A5B 45%,#5B2785 100%);color:#fff;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;background:radial-gradient(600px 300px at 15% 110%,rgba(247,144,30,.35),transparent 60%),radial-gradient(500px 300px at 90% 0%,rgba(230,24,141,.28),transparent 60%)}
+.hero .wrap{position:relative;padding:72px 24px 64px;display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:center}
+.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;opacity:.8}
+.hero h1{font-family:Sora,sans-serif;font-weight:800;font-size:clamp(40px,6vw,68px);line-height:1.04;margin:12px 0 18px;letter-spacing:-.02em}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--gold),var(--orange) 40%,var(--magenta));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:17px;opacity:.88;max-width:560px;margin:0 0 22px}
+.hero .meta{font-size:13px;opacity:.7}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:18px}
+.stat .v{font-family:Sora,sans-serif;font-size:30px;font-weight:800;letter-spacing:-.02em}
+.stat .l{font-size:13px;opacity:.9;font-weight:600}
+.stat .n{font-size:11.5px;opacity:.6;margin-top:2px}
+.badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:var(--orange);color:#fff;vertical-align:middle}
+/* chapters */
+section.cap{padding:72px 0 24px}
+.cap-n{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--magenta)}
+h2{font-family:Sora,sans-serif;font-size:clamp(28px,4vw,42px);color:var(--navy);margin:8px 0 10px;letter-spacing:-.015em;line-height:1.12}
+.lead{font-size:16.5px;color:var(--muted);max-width:820px;margin:0 0 26px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:18px}
+.kpi{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:18px 18px 16px;border-top:4px solid var(--blue)}
+.kpi.verde{border-top-color:var(--green)}.kpi.laranja{border-top-color:var(--orange)}.kpi.azul{border-top-color:var(--sky)}.kpi.roxo{border-top-color:var(--blue)}
+.kpi .v{font-family:Sora,sans-serif;font-size:28px;font-weight:800;color:var(--navy);letter-spacing:-.02em;line-height:1.1}
+.kpi .l{font-size:13.5px;font-weight:600;margin-top:4px}
+.kpi .n{font-size:12px;color:var(--muted);margin-top:2px}
+.grid{display:grid;gap:16px;margin-bottom:16px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g21{grid-template-columns:1.6fr 1fr}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:22px 22px 18px;min-width:0}
+.card h3{font-family:Sora,sans-serif;font-size:17px;color:var(--navy);margin:0 0 2px}
+.card .src{font-size:12px;color:var(--muted);margin-bottom:12px}
+.card .cap-txt{font-size:13px;color:var(--muted);margin-top:10px}
+.chart{position:relative;width:100%}
+.note{background:#fff;border-left:4px solid var(--blue);border-radius:12px;padding:14px 18px;font-size:14.5px;box-shadow:var(--shadow-sm);margin-bottom:16px}
+.note.warn{border-left-color:var(--orange)}
+.big{font-family:Sora,sans-serif;font-size:44px;font-weight:800;color:var(--navy);line-height:1}
+.big small{font-size:18px;color:var(--muted);font-weight:600}
+table.t{width:100%;border-collapse:collapse;font-size:14px}
+table.t th{text-align:left;color:var(--muted);font-weight:600;font-size:12.5px;border-bottom:1px solid var(--line);padding:8px 6px}
+table.t td{border-bottom:1px solid var(--line);padding:9px 6px}
+table.t .r{text-align:right}
+/* parecer */
+.parecer{background:linear-gradient(125deg,#2A1140,#3D1A5B 60%,#5B2785);color:#fff;margin-top:56px}
+.parecer h2{color:#fff}.parecer .cap-n{color:var(--gold)}.parecer .lead{color:rgba(255,255,255,.8)}
+.par{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.par article{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:var(--radius);padding:22px}
+.par h4{font-family:Sora,sans-serif;font-size:17px;margin:0 0 8px;color:var(--gold)}
+.par p{margin:0;font-size:15px;opacity:.92}
+.recs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+.rec{background:#fff;color:var(--ink);border-radius:var(--radius);padding:18px}
+.rec b{font-family:Sora,sans-serif;color:var(--navy);display:block;margin-bottom:4px}
+.rec span{font-size:14px;color:var(--muted)}
+.sign{text-align:center;padding:42px 0 64px}
+.sign .line{width:260px;border-top:1px solid rgba(255,255,255,.5);margin:30px auto 10px}
+.sign b{font-family:Sora,sans-serif;font-size:18px;display:block}
+.btn{display:inline-block;background:var(--orange);color:#fff;text-decoration:none;font-weight:700;padding:11px 20px;border-radius:999px;font-size:14px;border:0;cursor:pointer}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.5)}
+footer{background:#1E0C2E;color:rgba(255,255,255,.75);font-size:13px;padding:36px 0}
+footer .wrap{display:grid;grid-template-columns:2fr 1fr;gap:32px}
+footer b{color:#fff}
+footer a{color:#fff}
+.loading{padding:120px 0;text-align:center;color:var(--muted)}
+@media (max-width:900px){.hero .wrap,.g2,.g3,.g21,.par,.recs,footer .wrap{grid-template-columns:1fr}.brand .back{display:none}}
+@media print{header.top,nav.chap,.btn{display:none}.card,.kpi{box-shadow:none;border:1px solid var(--line)}section.cap{padding-top:28px;break-inside:avoid-page}}
+</style>
+</head>
+<body>
+<header class="top">
+ <div class="wrap brand">
+  <img src="https://netqjehamlydexyasgfk.supabase.co/storage/v1/object/public/midia/prefeitura_logo/1782071804915_marca-prefeitura-santa-maria-2025-2028-horizontal-policromatica-uso-sobre-fundo-claro-3-.png" alt="Prefeitura de Santa Maria">
+  <div><b>Feisma em Números</b><small>SMDEI · Prefeitura de Santa Maria</small></div>
+  <a class="back" href="https://www.santamariaemnumeros.com">♥ Santa Maria em Números ↗</a>
+ </div>
+ <nav class="chap wrap">
+  <a href="#expositores">Expositores</a><a href="#publico">Público</a><a href="#faturamento">Faturamento</a><a href="#prospeccao">Prospecção</a><a href="#satisfacao">Satisfação</a><a href="#parecer">Parecer econômico</a>
+ </nav>
+</header>
+
+<section class="hero">
+ <div class="wrap">
+  <div>
+   <div class="eyebrow" id="h-edicao">32ª Feisma &amp; 4º Santa Summit</div>
+   <h1>A Feisma 2026 em <em>números</em></h1>
+   <p>Expositores, público, negócios e o impacto econômico da maior vitrine de Santa Maria, a partir dos dados da organização e da pesquisa com expositores.</p>
+   <div class="meta" id="h-periodo"></div>
+  </div>
+  <div class="stats" id="hero-stats"></div>
+ </div>
+</section>
+
+<main id="app"><div class="loading">Carregando os dados…</div></main>
+
+<footer>
+ <div class="wrap">
+  <div><b>Metodologia e fontes.</b> Perfil dos expositores: planilha de estandes da organização (out/2026). Público visitante: painel de ingressos e controle de acesso do evento; entradas são registros diários, incluem público e equipe e não representam pessoas únicas. Resultados: pesquisa com expositores durante a feira (<span id="f-n"></span>); valores por faixa somados pelo ponto médio; margem de erro aproximada de ±18 p.p. Contexto: IBGE (Censo 2022) e Mapa Econômico do RS, Jornal do Comércio (PIB municipal 2021).</div>
+  <div>Iniciativa da <b>Secretaria de Município de Desenvolvimento Econômico e Inovação</b> · Prefeitura de Santa Maria, RS.<br><br><a href="https://www.santamariaemnumeros.com">♥ Santa Maria em Números ↗</a><br><span id="f-atual"></span></div>
+ </div>
+</footer>
+
+<script>
+const C={navy:'#3D1A5B',purple:'#8A2BAE',purpleSoft:'#C9A3DE',green:'#58B947',gold:'#F7A81E',magenta:'#E6188D',sky:'#1F9BD4',orange:'#F7901E',red:'#D8434B',gray:'#CFC6D9',muted:'#6E5C82',line:'#EAE2F2'};
+const fmt=(v,c=0)=>Number(v).toLocaleString('pt-BR',{minimumFractionDigits:c,maximumFractionDigits:c});
+const fmtInd=i=>`${i.prefixo||''}${fmt(i.valor,i.casas)}${i.sufixo||''}`;
+Chart.defaults.font.family='Inter, sans-serif';Chart.defaults.font.size=12;Chart.defaults.color=C.muted;
+Chart.defaults.plugins.legend.labels.boxWidth=10;Chart.defaults.plugins.legend.labels.boxHeight=10;
+Chart.defaults.plugins.tooltip.backgroundColor='#241433';Chart.defaults.plugins.tooltip.padding=10;Chart.defaults.plugins.tooltip.cornerRadius=8;
+
+let D;
+const kpi=k=>{const i=D.indicadores[k];if(!i)return'';return `<div class="kpi ${i.tom}"><div class="v" data-count="${i.valor}" data-casas="${i.casas}" data-pre="${i.prefixo||''}" data-suf="${i.sufixo||''}">${fmtInd(i)}</div><div class="l">${i.rotulo}</div>${i.nota?`<div class="n">${i.nota}</div>`:''}</div>`};
+const kpis=ks=>`<div class="kpis">${ks.map(kpi).join('')}</div>`;
+const card=(id,t,src,h,cap='')=>`<div class="card"><h3>${t}</h3><div class="src">${src}</div><div class="chart" style="height:${h}px"><canvas id="${id}"></canvas></div>${cap?`<div class="cap-txt">${cap}</div>`:''}</div>`;
+const head=(n,id,t,extra='')=>`<div class="cap-n">Capítulo ${n} · ${t}</div><h2>${D.textos['lead_'+id]?.titulo||t} ${extra}</h2><p class="lead">${D.textos['lead_'+id]?.corpo||''}</p>`;
+const S=g=>D.series[g]||[];
+const N=()=>Number(D.meta.pesquisa_n_empresas||27);
+
+function hbar(id,g,{color=C.purple,pct=false,hl=null,suffix=''}={}){
+  const s=S(g);const tot=pct?N():null;
+  new Chart(document.getElementById(id),{type:'bar',data:{labels:s.map(r=>r.rotulo),datasets:[{data:s.map(r=>r.valor),
+    backgroundColor:s.map((r,i)=>typeof color==='function'?color(r,i):(r.destaque?C.orange:color)),borderRadius:5,borderSkipped:false,barPercentage:.78,categoryPercentage:.9}]},
+    options:{indexAxis:'y',maintainAspectRatio:false,layout:{padding:{right:56}},plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>' '+fmt(c.raw)+suffix+(tot?` (${fmt(100*c.raw/tot)}% das empresas)`:'')}}},
+      scales:{x:{display:false,grid:{display:false}},y:{grid:{display:false},border:{display:false},ticks:{color:'#4A3563',font:{size:12}}}}},
+    plugins:[valueLabels(v=>fmt(v)+suffix+(tot?`  ·  ${fmt(100*v/tot)}%`:''))]});
+}
+function valueLabels(f){return{id:'vl',afterDatasetsDraw(ch){const{ctx}=ch;ctx.save();ctx.font='600 12px Inter';ctx.fillStyle='#241433';ctx.textBaseline='middle';
+  ch.getDatasetMeta(0).data.forEach((b,i)=>{const v=ch.data.datasets[0].data[i];ctx.fillText(f(v),b.x+6,b.y)});ctx.restore()}}}
+function stack100(id,g,colors){
+  const s=S(g);const tot=s.reduce((a,r)=>a+r.valor,0);
+  new Chart(document.getElementById(id),{type:'bar',data:{labels:[''],datasets:s.map((r,i)=>({label:r.rotulo,data:[100*r.valor/tot],raw:r.valor,backgroundColor:colors[i],borderColor:'#fff',borderWidth:2,borderRadius:6,borderSkipped:false}))},
+    options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${fmt(c.dataset.raw)} (${fmt(c.raw)}%)`}}},
+      scales:{x:{stacked:true,display:false,max:100},y:{stacked:true,display:false}}},
+    plugins:[{id:'sl',afterDatasetsDraw(ch){const{ctx}=ch;ctx.save();ctx.font='700 13px Inter';ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';
+      ch.data.datasets.forEach((d,i)=>{const b=ch.getDatasetMeta(i).data[0];if(d.data[0]>8)ctx.fillText(fmt(d.data[0])+'%',(b.x+b.base)/2,b.y)});ctx.restore()}}]});
+}
+
+function render(){
+  const M=D.meta,I=D.indicadores;
+  document.getElementById('h-edicao').textContent=M.edicao;
+  document.getElementById('h-periodo').textContent=`${M.periodo} · Santa Maria, RS`;
+  document.getElementById('hero-stats').innerHTML=['expositores','entradas','vendas_amostra','negocios_amostra'].map(k=>{const i=I[k];return `<div class="stat"><div class="v">${fmtInd(i)}</div><div class="l">${i.rotulo}</div><div class="n">${i.nota||''}</div></div>`}).join('');
+  document.getElementById('f-n').textContent=`${M.pesquisa_n_respostas} entrevistas, ${M.pesquisa_n_empresas} empresas`;
+  document.getElementById('f-atual').textContent=`Dados atualizados em ${M.atualizado_em}.`;
+  const prev=M.visitacao_status==='prévia'?`<span class="badge">Prévia · ${M.visitacao_corte}</span>`:'';
+  const vis=D.visitacao, entr=vis.reduce((a,r)=>a+r.entradas,0), pico=vis.reduce((a,r)=>r.entradas>a.entradas?r:a,vis[0]);
+  const fds=vis.slice(0,3).reduce((a,r)=>a+r.entradas,0);
+  const T=D.textos;
+
+  document.getElementById('app').innerHTML=`
+  <section class="cap" id="expositores"><div class="wrap">
+   ${head('01','expositores','Expositores')}
+   ${kpis(['expositores','estandes','modulos','segmentos','regiao_central','fora_rs'])}
+   <div class="grid g21">
+    ${card('c-seg','Expositores por segmento','Planilha de estandes da organização · em laranja, o segmento com maiores estandes',560,'Imobiliárias e construtoras são 5,5% dos expositores, mas ocupam 9,5% da área. A cadeia imobiliária e da construção soma 27 expositores (11,5%).')}
+    <div style="display:grid;gap:16px;align-content:start">
+     ${card('c-ddd','Origem dos expositores','Pelo DDD do telefone · aproximado',230)}
+     ${card('c-pav','Estandes por pavilhão','Cada pavilhão tem vocação própria',250,'C concentra a moda; A, imobiliárias, saúde e escolas; B, construção e casa; D, órgãos públicos, mídia, artigos gaúchos e joias.')}
+    </div>
+   </div>
+  </div></section>
+
+  <section class="cap" id="publico"><div class="wrap">
+   ${head('02','publico','Público visitante',prev)}
+   <div class="kpis">
+    <div class="kpi laranja"><div class="v">${fmt(entr)}</div><div class="l">entradas registradas</div><div class="n">${M.visitacao_status==='prévia'?'até '+M.visitacao_corte:'total do evento'}</div></div>
+    <div class="kpi roxo"><div class="v">${fmt(pico.entradas)}</div><div class="l">pico diário</div><div class="n">${pico.dia} (${pico.dia_semana})</div></div>
+    ${['ingressos_pagos','gratuitos','a_conferir','cracha_expositores'].map(kpi).join('')}
+   </div>
+   ${card('c-vis','Entradas registradas por dia','Controle de acesso · contorno tracejado: capacidade do dia · inclui público e equipe; não são pessoas únicas',320)}
+   <div class="grid g3">
+    ${card('c-ing','Ingressos pagos por tipo','Vendas confirmadas',200)}
+    <div class="card"><h3>Ritmo da visitação</h3><div class="src">Fim de semana de abertura + Finados × demais dias</div>
+      <div class="big">${fmt(100*fds/entr)}%<small> das entradas</small></div>
+      <div class="cap-txt">nos três primeiros dias (31/10 a 02/11), com média de ${fmt(fds/3)} entradas por dia. Entre 03 e 05/11, a média caiu para ${fmt(vis.slice(3,6).reduce((a,r)=>a+r.entradas,0)/3)}.</div></div>
+    <div class="card"><h3>O público pelo olhar dos expositores</h3><div class="src">Notas de 1 a 5</div>
+      <div style="display:flex;gap:28px"><div><div class="big">${fmt(I.nota_volume.valor,1)}<small>/5</small></div><div class="cap-txt">volume de público</div></div>
+      <div><div class="big" style="color:${C.orange}">${fmt(I.nota_qualidade.valor,1)}<small>/5</small></div><div class="cap-txt">qualidade do público como comprador</div></div></div></div>
+   </div>
+   <div class="grid g2">
+    ${card('c-perf','O público correspondeu ao perfil buscado?','Pesquisa com expositores',120)}
+    ${card('c-orc','De onde vieram os principais contatos','Respostas múltiplas · % das empresas',190)}
+   </div>
+  </div></section>
+
+  <section class="cap" id="faturamento"><div class="wrap">
+   ${head('03','faturamento','Faturamento')}
+   ${kpis(['investimento','vendas','negocios','retorno'])}
+   <div class="grid g2">
+    ${card('c-inv','Investimento para participar','Estande, montagem, material, equipe e deslocamento · nº de empresas',220)}
+    ${card('c-ven','Vendas fechadas durante a feira','Nº de empresas por faixa',220)}
+    ${card('c-pip','Negócios encaminhados (3 a 6 meses)','Propostas, orçamentos e pedidos a fechar',240)}
+    <div class="card"><h3>O retorno cobriu o investimento?</h3><div class="src">Pesquisa com expositores</div><div class="chart" style="height:110px"><canvas id="c-cob"></canvas></div>
+     <div style="display:flex;gap:30px;margin-top:14px"><div><div class="big">${fmtInd(I.venda_mediana)}</div><div class="cap-txt">venda mediana</div></div><div><div class="big">${fmtInd(I.invest_mediano)}</div><div class="cap-txt">investimento mediano</div></div></div></div>
+   </div>
+   <div class="note warn"><b>Concentração.</b> Três empresas (varejo, outlet e veículos) somam ${fmtInd(I.concentracao)} das vendas estimadas. Para o expositor típico, a venda na feira não pagou o investimento: o retorno depende dos negócios encaminhados.</div>
+   <div class="card"><h3>Ordem de grandeza para os 235 expositores <span class="badge">Indicativo</span></h3><div class="src">Expansão simples da amostra · a amostra não é aleatória; use como ordem de grandeza</div>
+    <table class="t"><tr><th></th><th class="r">Cenário conservador</th><th class="r">Cenário central</th></tr>
+    <tr><td>Vendas fechadas durante a feira</td><td class="r">${fmtInd(I.universo_vendas_min)}</td><td class="r"><b>${fmtInd(I.universo_vendas_med)}</b></td></tr>
+    <tr><td>Negócios encaminhados (3 a 6 meses)</td><td class="r">${fmtInd(I.universo_neg_min)}</td><td class="r"><b>${fmtInd(I.universo_neg_med)}</b></td></tr></table></div>
+  </div></section>
+
+  <section class="cap" id="prospeccao"><div class="wrap">
+   ${head('04','prospeccao','Prospecção')}
+   ${kpis(['leads','novos_75','contratacoes','estreantes'])}
+   <div class="grid g2">
+    ${card('c-lead','Contatos qualificados por empresa','Nº de empresas por faixa de leads',200)}
+    ${card('c-nov','Participação de clientes novos','Nº de empresas',180)}
+    ${card('c-tip','Tipo de contato gerado','Respostas múltiplas · % das empresas',200)}
+    ${card('c-mot','Por que expor na Feisma','Respostas múltiplas · % das empresas',220)}
+    ${card('c-por','Porte das empresas pesquisadas','Nº de empresas',200,'MEIs e microempresas são 41% da amostra: a feira é vitrine para pequenos negócios.')}
+    ${card('c-edi','Participações na Feisma','Nº de empresas',180,'Alta renovação: mais da metade estreou nesta edição.')}
+   </div>
+  </div></section>
+
+  <section class="cap" id="satisfacao"><div class="wrap">
+   ${head('05','satisfacao','Satisfação')}
+   ${kpis(['nps','nota_geral','voltam','cobrir'])}
+   <div class="grid g21">
+    ${card('c-lik','Avaliação por aspecto','Notas de 1 a 5 · barras centradas na nota neutra (3) · à direita, avaliações positivas',470)}
+    <div style="display:grid;gap:16px;align-content:start">
+     ${card('c-nps','Recomendação de 0 a 10','Vermelho: detratores (0-6) · cinza: neutros · roxo: promotores (9-10)',170)}
+     ${card('c-ret','Pretende expor na próxima edição?','',100)}
+     ${card('c-cmp','Comparada a outras feiras','5 empresas não participam de outras feiras',100)}
+    </div>
+   </div>
+   <div class="grid g2">
+    ${card('c-pvo','Confirmam a próxima edição, por porte','% das empresas que responderam "sim"',200,'As grandes empresas são as mais satisfeitas (recomendação média 9,0). Nenhuma empresa média confirmou o retorno.')}
+    ${card('c-prob','O que prejudicou o resultado','Respostas abertas codificadas · nº de menções',220)}
+    ${card('c-mel','O que melhorar na próxima edição','Nº de menções',240)}
+    ${card('c-man','O que manter','Nº de menções',160)}
+   </div>
+  </div></section>
+
+  <section class="cap parecer" id="parecer"><div class="wrap">
+   <div class="cap-n">Capítulo 06 · Parecer econômico</div>
+   <h2>A Feisma para Santa Maria e a Região Central</h2>
+   <p class="lead">Parecer da Secretaria de Desenvolvimento Econômico e Inovação sobre a importância econômica da edição 2026.</p>
+   <div class="par">${Object.values(T).filter(t=>t.capitulo==='parecer').sort((a,b)=>a.ordem-b.ordem).map(t=>`<article><h4>${t.titulo}</h4><p>${t.corpo}</p></article>`).join('')}</div>
+   <h2 style="font-size:28px;margin-top:40px">Recomendações</h2>
+   <div class="recs">${Object.values(T).filter(t=>t.capitulo==='recomendacoes').sort((a,b)=>a.ordem-b.ordem).map(t=>`<div class="rec"><b>${t.titulo}</b><span>${t.corpo}</span></div>`).join('')}</div>
+   <div class="par" style="grid-template-columns:1fr;margin-top:22px"><article><h4>Conclusão</h4><p>A Feisma 2026 confirma sua relevância econômica para Santa Maria e para a Região Central: mobiliza centenas de empresas majoritariamente locais, dezenas de milhares de visitantes e milhões de reais em vendas e negócios. O desafio é transformar visitação em compra, especialmente para os pequenos expositores. A Secretaria considera a feira estratégica para o desenvolvimento econômico do município e recomenda a continuidade do apoio institucional, condicionada a metas de qualificação do público e de melhoria da infraestrutura.</p></article></div>
+   <div class="sign">
+    <div>Santa Maria, ${M.atualizado_em.replace('/11/2026',' de novembro de 2026').replace(/^0/,'')}</div>
+    <div class="line"></div>
+    <b>Secretaria de Desenvolvimento Econômico e Inovação</b>
+    Prefeitura Municipal de Santa Maria · RS
+    <div style="margin-top:22px"><button class="btn" onclick="window.print()">Imprimir / salvar em PDF</button> <a class="btn ghost" href="https://www.santamariaemnumeros.com">♥ Santa Maria em Números ↗</a></div>
+   </div>
+  </div></section>`;
+
+  // charts
+  hbar('c-seg','segmentos',{color:(r)=>r.rotulo==='A confirmar'?C.gray:(r.destaque?C.orange:C.purple)});
+  hbar('c-ddd','ddd',{color:(r,i)=>[C.purple,C.purpleSoft,C.green,C.gold,C.orange,C.gray][i]});
+  hbar('c-pav','pavilhoes',{color:C.navy});
+  // visitação
+  new Chart(document.getElementById('c-vis'),{type:'bar',data:{labels:vis.map(r=>[r.dia,r.dia_semana]),datasets:[
+    {label:'Entradas registradas',data:vis.map(r=>r.situacao==='a realizar'?null:r.entradas),backgroundColor:vis.map(r=>r.situacao==='parcial'?C.purpleSoft:C.purple),borderRadius:8,borderSkipped:false,barPercentage:.55,order:1},
+    {label:'Capacidade do dia',data:vis.map(r=>r.capacidade),backgroundColor:'rgba(0,0,0,0)',borderColor:C.gray,borderWidth:1.5,borderDash:[4,3],borderRadius:8,borderSkipped:false,barPercentage:.75,grouped:false,order:2}]},
+    options:{maintainAspectRatio:false,plugins:{legend:{position:'top',align:'end'},tooltip:{callbacks:{afterBody:it=>{const r=vis[it[0].dataIndex];return r.situacao==='parcial'?'Dia parcial no corte':r.situacao==='a realizar'?'A realizar':''}}}},
+      scales:{x:{grid:{display:false},ticks:{color:'#4A3563'}},y:{grid:{color:C.line},border:{display:false},ticks:{callback:v=>fmt(v)}}}},
+    plugins:[{id:'vv',afterDatasetsDraw(ch){const{ctx}=ch;ctx.save();ctx.font='700 12px Inter';ctx.fillStyle='#241433';ctx.textAlign='center';
+      ch.getDatasetMeta(0).data.forEach((b,i)=>{const r=vis[i];ctx.fillText(r.situacao==='a realizar'?'a realizar':fmt(r.entradas),b.x,(r.situacao==='a realizar'?ch.scales.y.getPixelForValue(0):b.y)-8)});ctx.restore()}}]});
+  hbar('c-ing','ingressos_tipo',{color:r=>r.rotulo.startsWith('Feisma')?C.purple:C.magenta});
+  stack100('c-perf','perfil_publico',[C.green,C.gray,C.red]);
+  hbar('c-orc','origem_contatos',{color:C.green,pct:true});
+  hbar('c-inv','investimento',{color:C.orange,pct:true});
+  hbar('c-ven','vendas',{color:(r,i)=>i===0?C.gray:C.green,pct:true});
+  hbar('c-pip','pipeline',{color:(r,i)=>i===0?C.gray:C.sky,pct:true});
+  stack100('c-cob','cobriu',[C.green,C.sky,C.red]);
+  hbar('c-lead','leads',{color:C.purple,pct:true});
+  hbar('c-nov','novos',{color:C.green,pct:true});
+  hbar('c-tip','tipo_contatos',{color:C.magenta,pct:true});
+  hbar('c-mot','motivos',{color:C.purple,pct:true});
+  hbar('c-por','porte',{color:C.sky,pct:true});
+  hbar('c-edi','edicoes',{color:(r,i)=>i===0?C.orange:C.purple,pct:true});
+  // likert
+  const A=D.avaliacoes, Lc=[C.red,'#EFA0A4',C.gray,C.purpleSoft,C.purple], Ll=['1 · muito ruim','2','3 · regular','4','5 · excelente'];
+  const pc=(a,k)=>100*a['n'+k]/(a.n1+a.n2+a.n3+a.n4+a.n5);
+  new Chart(document.getElementById('c-lik'),{type:'bar',data:{labels:A.map(a=>a.aspecto),datasets:[
+     {k:3,s:-1},{k:2,s:-1},{k:1,s:-1},{k:3,s:1,dup:1},{k:4,s:1},{k:5,s:1}].map(d=>({label:Ll[d.k-1],data:A.map(a=>d.s*pc(a,d.k)*(d.k===3?.5:1)),
+       backgroundColor:Lc[d.k-1],borderColor:'#fff',borderWidth:1,borderSkipped:false,barPercentage:.75,_dup:!!d.dup,_k:d.k}))},
+    options:{indexAxis:'y',maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{filter:(l,cd)=>!cd.datasets[l.datasetIndex]._dup,sort:(a,b,cd)=>cd.datasets[a.datasetIndex]._k-cd.datasets[b.datasetIndex]._k}},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${fmt(Math.abs(c.raw)*(c.dataset.label.startsWith('3')?2:1))}%`,afterBody:it=>'Média: '+fmt(A[it[0].dataIndex].media,2)}}},
+      scales:{x:{stacked:true,min:-70,max:100,grid:{color:c=>c.tick.value===0?C.muted:C.line},ticks:{callback:v=>Math.abs(v)+'%'}},y:{stacked:true,grid:{display:false},ticks:{color:'#4A3563',callback:function(v){const a=A[v];return a.aspecto+'  '+fmt(a.media,1)}}}}}});
+  // nps
+  const nd=S('nps_dist');
+  new Chart(document.getElementById('c-nps'),{type:'bar',data:{labels:nd.map(r=>r.rotulo),datasets:[{data:nd.map(r=>r.valor),backgroundColor:nd.map(r=>+r.rotulo<=6?C.red:+r.rotulo<=8?C.gray:C.purple),borderRadius:4}]},
+    options:{maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{title:i=>'Nota '+i[0].label,label:c=>` ${c.raw} empresas`}}},scales:{x:{grid:{display:false}},y:{display:false}}}});
+  stack100('c-ret','retorno_prox',[C.green,C.gold,C.red]);
+  stack100('c-cmp','comparacao',[C.purple,C.gray,C.red]);
+  hbar('c-pvo','porte_volta',{color:(r)=>r.valor>=80?C.green:r.valor<30?C.red:C.purple,suffix:'%'});
+  hbar('c-prob','problemas',{color:C.orange});
+  hbar('c-mel','melhorias',{color:C.sky});
+  hbar('c-man','manter',{color:C.green});
+}
+
+fetch('/api/dados').then(r=>{if(!r.ok)throw r;return r.json()}).then(d=>{D=d;render()})
+ .catch(()=>{document.getElementById('app').innerHTML='<div class="loading">Não foi possível carregar os dados agora. Tente novamente em instantes.</div>'});
+</script>
+</body>
+</html>
