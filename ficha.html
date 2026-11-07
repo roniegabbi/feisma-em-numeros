@@ -81,9 +81,9 @@ function render(){
 
  <h2><i></i>A feira</h2>
  <div class="g">
-  ${k(fi(I.expositores),'expositores')}
-  ${k(fi(I.estandes),'estandes ocupados')}
+  ${k(fi(I.estandes),'estandes ocupados','por 235 CNPJs')}
   ${k(fi(I.segmentos),'segmentos econômicos')}
+  ${k(fi(I.regiao_central),'das empresas são da Região Central',I.regiao_central?.nota||'')}
  </div>
 
  <h2><i></i>O público ${prev?'<span class="badge">Prévia · '+M.visitacao_corte+'</span>':''}</h2>
