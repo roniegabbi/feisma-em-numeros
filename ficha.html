@@ -129,7 +129,7 @@ function render(){
   <div class="box"><h2><i></i>Principais segmentos</h2>${hb(S('segmentos').filter(r=>r.rotulo!=='A confirmar'),{n:8,color:r=>r.destaque?'#F7901E':'#8A2BAE'})}</div>
   <div class="box"><h2><i></i>Resultados de negócio · pesquisa com ${N} expositores</h2>
    ${(()=>{const inv=I.investimento.valor/1000,ven=I.vendas.valor,neg=I.negocios.valor,pat=Number(M.patrocinio_mi||0);const m=v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+' mi';
-    return `<div class="tot"><div><div class="t">Movimentação econômica gerada</div><div class="tv">${m(inv+ven+neg+pat)}</div></div><div class="tc">${pat?m(pat)+' patrocínios + ':''}${m(inv)} investimento<br>+ ${m(ven)} vendas + ${m(neg)} negócios${pat?'':'<br>patrocínios ainda não incluídos'}</div></div>`})()}
+    return `<div class="tot"><div><div class="t">Dinheiro movimentado pela feira</div><div class="tv">${m(inv+ven+neg+pat)}</div></div><div class="tc">${pat?m(pat)+' em patrocínios<br>':''}${m(inv)} investidos pelos expositores<br>${m(ven)} vendidos durante a feira<br>${m(neg)} em negócios a fechar em até 6 meses</div></div>`})()}
    <div class="kp k3">
    ${k(fi(I.vendas),'vendas na feira',I.vendas?.nota||'','g')}
    ${k(fi(I.negocios),'negócios encaminhados','3 a 6 meses','g')}
