@@ -48,6 +48,12 @@ section.cap{padding:72px 0 24px}
 .cap-n{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--magenta)}
 h2{font-family:Sora,sans-serif;font-size:clamp(28px,4vw,42px);color:var(--navy);margin:8px 0 10px;letter-spacing:-.015em;line-height:1.12}
 .lead{font-size:16.5px;color:var(--muted);max-width:820px;margin:0 0 26px}
+.tot{background:linear-gradient(120deg,var(--navy),var(--blue) 70%,#E6188D);color:#fff;border-radius:var(--radius);padding:26px 28px;margin-bottom:18px;display:flex;flex-wrap:wrap;align-items:center;gap:22px 40px;box-shadow:var(--shadow-sm)}
+.tot .k{font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+.tot .v{font-family:Sora,sans-serif;font-size:52px;font-weight:800;letter-spacing:-.03em;line-height:1.05;margin:4px 0 6px}
+.tot .d{font-size:13px;opacity:.85;max-width:520px}
+.tot .p{display:flex;gap:26px;flex-wrap:wrap}.tot .p div{border-left:3px solid #F7A81E;padding-left:10px}
+.tot .p b{display:block;font-family:Sora,sans-serif;font-size:21px}.tot .p span{font-size:12px;opacity:.85}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:18px}
 .kpi{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:18px 18px 16px;border-top:4px solid var(--blue)}
 .kpi.verde{border-top-color:var(--green)}.kpi.laranja{border-top-color:var(--orange)}.kpi.azul{border-top-color:var(--sky)}.kpi.roxo{border-top-color:var(--blue)}
@@ -99,6 +105,7 @@ footer a{color:#fff}
  .hero .wrap{padding:40px 16px 36px;gap:24px}.hero p{font-size:15.5px}
  .stats{gap:10px}.stat{padding:14px}.stat .v{font-size:22px}.stat .l{font-size:12px}
  section.cap{padding:44px 0 10px}.lead{font-size:15px;margin-bottom:18px}
+ .tot{padding:20px 18px}.tot .v{font-size:38px}.tot .p{gap:16px}.tot .p b{font-size:18px}
  .kpis{grid-template-columns:1fr 1fr;gap:10px}.kpi{padding:14px 13px 12px}.kpi .v{font-size:22px}.kpi .l{font-size:12.5px}.kpi .n{font-size:11.5px}
  .card{padding:16px 14px 14px}.card h3{font-size:16px}.big{font-size:34px}.big small{font-size:15px}
  .par article{padding:18px}.par p{font-size:14.5px}.sign{padding:30px 0 44px}
@@ -233,6 +240,9 @@ function render(){
 
   <section class="cap" id="faturamento"><div class="wrap">
    ${head('03','faturamento','Faturamento')}
+   ${(()=>{const inv=I.investimento.valor/1000,ven=I.vendas.valor,neg=I.negocios.valor,pat=Number(M.patrocinio_mi||0),tot=inv+ven+neg+pat;const m=v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+' mi';
+     return `<div class="tot"><div><div class="k">Movimentação econômica gerada</div><div class="v">${m(tot)}</div><div class="d">Soma de ${pat?'patrocínios, ':''}investimento dos expositores para participar, vendas fechadas na feira e negócios encaminhados para os próximos 3 a 6 meses · ${M.pesquisa_n_empresas} empresas pesquisadas${pat?'':' · patrocínios ainda não incluídos'}</div></div>
+     <div class="p">${pat?`<div><b>${m(pat)}</b><span>patrocínios</span></div>`:''}<div><b>${m(inv)}</b><span>investimento</span></div><div><b>${m(ven)}</b><span>vendas</span></div><div><b>${m(neg)}</b><span>negócios</span></div><div><b>${fmt(I.contratacoes.valor)}</b><span>contratações locais</span></div></div></div>`})()}
    ${kpis(['investimento','vendas','negocios','retorno'])}
    <div class="grid g2">
     ${card('c-inv','Investimento para participar','Estande, montagem, material, equipe e deslocamento · nº de empresas',220)}
