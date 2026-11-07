@@ -164,7 +164,7 @@ function hbar(id,g,{color=C.purple,pct=false,hl=null,suffix=''}={}){
   const s=S(g);const tot=pct?N():null;fitH(id,s.length,42);
   new Chart(document.getElementById(id),{type:'bar',data:{labels:s.map(r=>r.rotulo),datasets:[{data:s.map(r=>r.valor),
     backgroundColor:s.map((r,i)=>typeof color==='function'?color(r,i):(r.destaque?C.orange:color)),borderRadius:5,borderSkipped:false,barPercentage:.78,categoryPercentage:.9}]},
-    options:{indexAxis:'y',maintainAspectRatio:false,layout:{padding:{right:MOB()?(pct?64:34):56}},plugins:{legend:{display:false},
+    options:{indexAxis:'y',maintainAspectRatio:false,layout:{padding:{right:MOB()?(pct?64:52):56}},plugins:{legend:{display:false},
       tooltip:{callbacks:{label:c=>' '+fmt(c.raw)+suffix+(tot?` (${fmt(100*c.raw/tot)}% das empresas)`:'')}}},
       scales:{x:{display:false,grid:{display:false}},y:{grid:{display:false},border:{display:false},ticks:{autoSkip:false,color:'#4A3563',font:{size:MOB()?11:12},callback:function(v){return wrapL(this.getLabelForValue(v),17)}}}}},
     plugins:[valueLabels(v=>fmt(v)+suffix+(tot?(MOB()?` · ${fmt(100*v/tot)}%`:`  ·  ${fmt(100*v/tot)}%`):''))]});
