@@ -130,5 +130,25 @@ tx = {
 }
 sql.append("insert into textos values " + ",".join(f"({q(k)},{q(c)},{o},{q(t)},{q(b)})" for k, (c, o, t, b) in tx.items()) +
            " on conflict (chave) do update set titulo=coalesce(excluded.titulo, textos.titulo), corpo=excluded.corpo")
+import sys
+if '--so-pesquisa' in sys.argv:
+    # atualização automática: não mexe em nada que venha do relatório de visitação
+    VIS_IND = {'entradas', 'ingressos_pagos', 'gratuitos', 'a_conferir', 'cracha_expositores'}
+    meta_p = {k: v for k, v in meta.items() if k in ('margem_erro', 'pesquisa_n_respostas', 'pesquisa_n_empresas')}
+    sql = ["insert into meta values " + ",".join(f"({q(k)},{q(v)})" for k, v in meta_p.items()) + " on conflict (chave) do update set valor=excluded.valor"]
+    ind_p = [r for r in ind if r[0] not in VIS_IND]
+    sql.append("insert into indicadores values " + ",".join(
+        f"({q(a)},{q(b)},{c},{q(d)},{round(e,4)},{q(f)},{q(g)},{h},{q(i)},{q(j)})" for a, b, c, d, e, f, g, h, i, j in ind_p) +
+        " on conflict (chave) do update set rotulo=excluded.rotulo, valor=excluded.valor, prefixo=excluded.prefixo, sufixo=excluded.sufixo, casas=excluded.casas, nota=excluded.nota")
+    S_p = [r for r in S if r[0] != 'ingressos_tipo']
+    sql.append("insert into series(grafico,ordem,rotulo,valor) values " + ",".join(f"({q(g)},{o},{q(l)},{v})" for g, o, l, v in S_p) +
+               " on conflict (grafico, ordem) do update set rotulo=excluded.rotulo, valor=excluded.valor")
+    sql.append("insert into avaliacoes values " + ",".join(
+        f"({q(k)},{i+1},{','.join(str(x) for x in v['dist'])},{v['media']})" for i, (k, v) in enumerate(order)) +
+        " on conflict (aspecto) do update set ordem=excluded.ordem, n1=excluded.n1, n2=excluded.n2, n3=excluded.n3, n4=excluded.n4, n5=excluded.n5, media=excluded.media")
+    tx_p = {k: v for k, v in tx.items() if k not in ('lead_publico', 'parecer_2')}
+    sql.append("insert into textos values " + ",".join(f"({q(k)},{q(c)},{o},{q(t)},{q(b)})" for k, (c, o, t, b) in tx_p.items()) +
+               " on conflict (chave) do update set titulo=coalesce(excluded.titulo, textos.titulo), corpo=excluded.corpo")
+    sql.append(f"update textos set corpo=regexp_replace(corpo, 'Na amostra, [0-9]+ das [0-9]+ empresas', 'Na amostra, {M['emp_empresas']} das {N} empresas') where chave='parecer_2'")
 json.dump(sql, open('data/update_sql.json', 'w'), ensure_ascii=False)
 print(f'{len(sql)} comandos; entradas={entr}; status={status}; empresas={N}; avisos={M.get("avisos")}')
