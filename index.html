@@ -161,12 +161,12 @@ const TX=(k,f='')=>(D.textos[k]&&D.textos[k].corpo)||f;
 const N=()=>Number(D.meta.pesquisa_n_empresas||27);
 
 function hbar(id,g,{color=C.purple,pct=false,hl=null,suffix=''}={}){
-  const s=S(g);const tot=pct?N():null;fitH(id,s.length,36);
+  const s=S(g);const tot=pct?N():null;fitH(id,s.length,42);
   new Chart(document.getElementById(id),{type:'bar',data:{labels:s.map(r=>r.rotulo),datasets:[{data:s.map(r=>r.valor),
     backgroundColor:s.map((r,i)=>typeof color==='function'?color(r,i):(r.destaque?C.orange:color)),borderRadius:5,borderSkipped:false,barPercentage:.78,categoryPercentage:.9}]},
     options:{indexAxis:'y',maintainAspectRatio:false,layout:{padding:{right:MOB()?(pct?64:34):56}},plugins:{legend:{display:false},
       tooltip:{callbacks:{label:c=>' '+fmt(c.raw)+suffix+(tot?` (${fmt(100*c.raw/tot)}% das empresas)`:'')}}},
-      scales:{x:{display:false,grid:{display:false}},y:{grid:{display:false},border:{display:false},ticks:{color:'#4A3563',font:{size:MOB()?11:12},callback:function(v){return wrapL(this.getLabelForValue(v),17)}}}}},
+      scales:{x:{display:false,grid:{display:false}},y:{grid:{display:false},border:{display:false},ticks:{autoSkip:false,color:'#4A3563',font:{size:MOB()?11:12},callback:function(v){return wrapL(this.getLabelForValue(v),17)}}}}},
     plugins:[valueLabels(v=>fmt(v)+suffix+(tot?(MOB()?` · ${fmt(100*v/tot)}%`:`  ·  ${fmt(100*v/tot)}%`):''))]});
 }
 function valueLabels(f){return{id:'vl',afterDatasetsDraw(ch){const{ctx}=ch;ctx.save();ctx.font=(MOB()?'600 11px':'600 12px')+' Inter';ctx.fillStyle='#241433';ctx.textBaseline='middle';
@@ -328,7 +328,7 @@ function render(){
        backgroundColor:Lc[d.k-1],borderColor:'#fff',borderWidth:1,borderSkipped:false,barPercentage:.75,_dup:!!d.dup,_k:d.k}))},
     options:{indexAxis:'y',maintainAspectRatio:false,
       plugins:{legend:{position:'top',labels:{filter:(l,cd)=>!cd.datasets[l.datasetIndex]._dup,sort:(a,b,cd)=>cd.datasets[a.datasetIndex]._k-cd.datasets[b.datasetIndex]._k}},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${fmt(Math.abs(c.raw)*(c.dataset.label.startsWith('3')?2:1))}%`,afterBody:it=>'Média: '+fmt(A[it[0].dataIndex].media,2)}}},
-      scales:{x:{stacked:true,min:-70,max:100,grid:{color:c=>c.tick.value===0?C.muted:C.line},ticks:{font:{size:MOB()?9:12},callback:v=>Math.abs(v)+'%'}},y:{stacked:true,grid:{display:false},ticks:{color:'#4A3563',font:{size:MOB()?10.5:12},callback:function(v){const a=A[v];return wrapL(a.aspecto+'  '+fmt(a.media,1),16)}}}}}});
+      scales:{x:{stacked:true,min:-70,max:100,grid:{color:c=>c.tick.value===0?C.muted:C.line},ticks:{font:{size:MOB()?9:12},callback:v=>Math.abs(v)+'%'}},y:{stacked:true,grid:{display:false},ticks:{autoSkip:false,color:'#4A3563',font:{size:MOB()?10.5:12},callback:function(v){const a=A[v];return wrapL(a.aspecto+'  '+fmt(a.media,1),16)}}}}}});
   // nps
   const nd=S('nps_dist');
   new Chart(document.getElementById('c-nps'),{type:'bar',data:{labels:nd.map(r=>r.rotulo),datasets:[{data:nd.map(r=>r.valor),backgroundColor:nd.map(r=>+r.rotulo<=6?C.red:+r.rotulo<=8?C.gray:C.purple),borderRadius:4}]},
