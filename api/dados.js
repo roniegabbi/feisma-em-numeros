@@ -2,7 +2,10 @@ import { neon } from '@neondatabase/serverless';
 
 export default async function handler(req, res) {
   try {
-    const sql = neon(process.env.DATABASE_URL);
+    const raw = process.env.DATABASE_URL || '';
+    const url = (raw.match(/postgres(?:ql)?:\/\/[^\s'"`]+/) || [])[0];
+    if (!url) throw new Error('DATABASE_URL invalida (tamanho ' + raw.length + ', inicio "' + raw.slice(0, 11) + '")');
+    const sql = neon(url);
     const [meta, indicadores, series, visitacao, avaliacoes, textos] = await Promise.all([
       sql`select chave, valor from meta`,
       sql`select chave, capitulo, ordem, rotulo, valor::float as valor, prefixo, sufixo, casas, nota, tom from indicadores order by capitulo, ordem`,
