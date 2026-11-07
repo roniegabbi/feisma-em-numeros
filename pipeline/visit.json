@@ -23,49 +23,49 @@
   {
    "data": "2026-10-31",
    "dia_semana": "sáb",
-   "entradas": 4616,
+   "entradas": 4617,
    "capacidade": 10000,
    "situacao": "realizado"
   },
   {
    "data": "2026-11-01",
    "dia_semana": "dom",
-   "entradas": 7054,
+   "entradas": 7063,
    "capacidade": 10000,
    "situacao": "realizado"
   },
   {
    "data": "2026-11-02",
    "dia_semana": "seg · Finados",
-   "entradas": 6674,
+   "entradas": 6776,
    "capacidade": 11000,
    "situacao": "realizado"
   },
   {
    "data": "2026-11-03",
    "dia_semana": "ter",
-   "entradas": 1743,
+   "entradas": 1786,
    "capacidade": 5000,
    "situacao": "realizado"
   },
   {
    "data": "2026-11-04",
    "dia_semana": "qua",
-   "entradas": 2984,
+   "entradas": 3447,
    "capacidade": 7000,
    "situacao": "realizado"
   },
   {
    "data": "2026-11-05",
    "dia_semana": "qui",
-   "entradas": 3252,
+   "entradas": 5773,
    "capacidade": 8200,
    "situacao": "realizado"
   },
   {
    "data": "2026-11-06",
    "dia_semana": "sex",
-   "entradas": 2942,
+   "entradas": 5592,
    "capacidade": 9000,
    "situacao": "realizado"
   },
@@ -84,6 +84,6 @@
    "situacao": "a realizar"
   }
  ],
- "entradas_total": 29360,
+ "entradas_total": 35149,
  "final": false
 }
