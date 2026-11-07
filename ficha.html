@@ -46,7 +46,7 @@ h2 i{display:inline-block;width:14px;height:3px;border-radius:2px;background:var
 .hb .lb{color:#4A3563;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px}
 .hb .tr{height:8px;border-radius:3px;background:var(--purple)}
 .hb .vl{font-weight:700;font-size:9.5px}
-.days{display:flex;align-items:flex-end;gap:5px;height:74px;margin-top:4px;border-bottom:1px solid var(--muted);padding:0 2px}
+.days{display:flex;align-items:flex-end;gap:5px;height:104px;margin-top:4px;border-bottom:1px solid var(--muted);padding:0 2px}
 .day{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;position:relative}
 .day .cap{position:absolute;bottom:0;width:100%;border:1px dashed #CFC6D9;border-bottom:0;border-radius:4px 4px 0 0}
 .day .b{width:62%;background:var(--purple);border-radius:3px 3px 0 0;position:relative}
@@ -158,10 +158,10 @@ addEventListener('resize',fitMobile);
 document.getElementById('bt-pdf').onclick=async()=>{
  const s=document.getElementById('sheet');if(!s||!window.html2pdf){window.print();return}
  const m=document.getElementById('msg');m.textContent='Gerando PDF…';
- const t=s.style.transform;s.style.transform='';
+ const t=s.style.transform,m0=s.style.margin,ml=s.style.marginLeft,b0=s.style.boxShadow;s.style.transform='';s.style.margin='0';s.style.boxShadow='none';
  try{await html2pdf().set({margin:0,filename:`Ficha_Tecnica_Feisma_2026_${(D.meta.atualizado_em||'').replace(/\//g,'-')}.pdf`,image:{type:'jpeg',quality:.96},html2canvas:{scale:2.2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css']}}).from(s).save();m.textContent=''}
  catch(e){m.textContent='Não foi possível gerar o arquivo; use Imprimir → Salvar como PDF.'}
- s.style.transform=t;fitMobile();
+ s.style.transform=t;s.style.margin=m0;s.style.marginLeft=ml;s.style.boxShadow=b0;fitMobile();
 };
 fetch('/api/dados').then(r=>{if(!r.ok)throw r;return r.json()}).then(d=>{D=d;render()}).catch(()=>{document.getElementById('wrap').innerHTML='<div class="sheet"><div class="loading">Não foi possível carregar os dados agora.</div></div>'});
 </script>
