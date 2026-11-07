@@ -51,6 +51,7 @@ h2 i{display:inline-block;width:14px;height:3px;border-radius:2px;background:var
 .day .cap{position:absolute;bottom:0;width:100%;border:1px dashed #CFC6D9;border-bottom:0;border-radius:4px 4px 0 0}
 .day .b{width:62%;background:var(--purple);border-radius:3px 3px 0 0;position:relative}
 .day .b.p{background:var(--soft)}
+.day .x{width:62%;background:var(--gold);border-radius:3px 3px 0 0}.day .x+.b{border-radius:0}
 .day .vv{font-size:8px;font-weight:700;margin-bottom:2px;position:relative}
 .dl{display:flex;gap:5px;padding:0 2px}.dl span{flex:1;text-align:center;font-size:7.6px;color:var(--muted);line-height:1.15}
 .stk{display:flex;height:13px;border-radius:4px;overflow:hidden;margin:3px 0 3px}
@@ -90,8 +91,9 @@ function render(){
  const ent=V.reduce((a,r)=>a+r.entradas,0), cap=V.reduce((a,r)=>a+(r.capacidade||0),0), pico=V.reduce((a,r)=>r.entradas>a.entradas?r:a,V[0]);
  const real=V.filter(r=>r.situacao==='realizado'), fds=V.slice(0,3).reduce((a,r)=>a+r.entradas,0);
  const prev=M.visitacao_status==='prévia';
- const mx=Math.max(...V.map(r=>Math.max(r.entradas,r.capacidade||0)));
+ const mx=Math.max(...V.map(r=>Math.max(r.entradas*(1+Number(M.ajuste_expositores||0)),r.capacidade||0)));
  const N=Number(M.pesquisa_n_empresas);
+ const AJ=Number(M.ajuste_expositores||0), est=Math.round(ent*(1+AJ));
  const conf=(I.ingressos_pagos?.valor||0)+(I.gratuitos?.valor||0);
  document.getElementById('wrap').innerHTML=`<div class="sheet" id="sheet">
  <div class="top"><img src="https://netqjehamlydexyasgfk.supabase.co/storage/v1/object/public/midia/prefeitura_logo/1782071804915_marca-prefeitura-santa-maria-2025-2028-horizontal-policromatica-uso-sobre-fundo-claro-3-.png" alt="Prefeitura de Santa Maria" crossorigin="anonymous">
@@ -104,17 +106,17 @@ function render(){
   ${k(fi(I.estandes),'estandes ocupados','','')}
   ${k(fi(I.modulos),'módulos ocupados','','')}
   ${k(fi(I.segmentos),'segmentos','','')}
-  ${k(fmt(ent),'entradas registradas',prev?'prévia até '+M.visitacao_corte:'total do evento','o')}
+  ${AJ?k(fmt(est),'público estimado',fmt(ent)+' entradas + '+fmt(AJ*100)+'% expositores'+(prev?' · prévia':''),'o'):k(fmt(ent),'entradas registradas',prev?'prévia até '+M.visitacao_corte:'total do evento','o')}
   ${k(fmt(pico.entradas),'pico diário',pico.dia+' ('+pico.dia_semana+')','o')}
   ${k(fmt(conf),'ingressos confirmados',fmt(I.ingressos_pagos?.valor||0)+' pagos + '+fmt(I.gratuitos?.valor||0)+' gratuitos','o')}
   ${k(fi(I.cracha_expositores),'crachás de expositores','representantes','o')}
  </div></div></div>
 
  <div class="row r21">
-  <div class="box"><h2><i></i>Entradas por dia ${prev?'<span class="badge">Prévia</span>':''}</h2>
-   <div class="days">${V.map(r=>{const fut=r.situacao==='a realizar';return `<div class="day"><div class="cap" style="height:${100*(r.capacidade||0)/mx}%"></div><div class="vv">${fut?'':(r.entradas>=1000?fmt(r.entradas/1000,1)+'k':fmt(r.entradas))}</div><div class="b ${r.situacao==='parcial'?'p':''}" style="height:${fut?0:100*r.entradas/mx}%"></div></div>`}).join('')}</div>
+  <div class="box"><h2><i></i>${AJ?'Público estimado por dia':'Entradas por dia'} ${prev?'<span class="badge">Prévia</span>':''}</h2>
+   <div class="days">${V.map(r=>{const fut=r.situacao==='a realizar';return `<div class="day"><div class="cap" style="height:${100*(r.capacidade||0)/mx}%"></div><div class="vv">${fut?'':(r.entradas*(1+AJ)>=1000?fmt(r.entradas*(1+AJ)/1000,1)+'k':fmt(r.entradas*(1+AJ)))}</div>${AJ&&!fut?`<div class="x" style="height:${100*r.entradas*AJ/mx}%"></div>`:''}<div class="b ${r.situacao==='parcial'?'p':''}" style="height:${fut?0:100*r.entradas/mx}%"></div></div>`}).join('')}</div>
    <div class="dl">${V.map(r=>`<span>${r.dia}<br>${r.dia_semana.split(' ·')[0]}</span>`).join('')}</div>
-   <div class="lg" style="margin-top:4px"><span><i style="background:#8A2BAE"></i>entradas registradas</span><span><i style="background:#C9A3DE"></i>dia parcial</span><span><i style="background:#fff;border:1px dashed #CFC6D9"></i>capacidade</span><span>Ocupação: ${fmt(100*real.reduce((a,r)=>a+r.entradas,0)/Math.max(1,real.reduce((a,r)=>a+(r.capacidade||0),0)))}% nos dias encerrados · feriadão: ${fmt(100*fds/Math.max(ent,1))}% do fluxo</span></div>
+   <div class="lg" style="margin-top:4px"><span><i style="background:#8A2BAE"></i>entradas registradas</span>${AJ?`<span><i style="background:#F7A81E"></i>+${fmt(AJ*100)}% expositores (estimativa)</span>`:''}<span><i style="background:#C9A3DE"></i>dia parcial</span><span><i style="background:#fff;border:1px dashed #CFC6D9"></i>capacidade</span><span>Ocupação: ${fmt(100*real.reduce((a,r)=>a+r.entradas,0)/Math.max(1,real.reduce((a,r)=>a+(r.capacidade||0),0)))}% nos dias encerrados · feriadão: ${fmt(100*fds/Math.max(ent,1))}% do fluxo</span></div>
   </div>
   <div class="box"><h2><i></i>Expositores por origem</h2>${hb(S('ddd'),{color:(r,i)=>C[i]})}
    <h2 style="margin-top:8px"><i></i>Estandes por pavilhão</h2>${hb(S('pavilhoes'),{color:'#3D1A5B'})}</div>
@@ -146,7 +148,7 @@ function render(){
 
  <div class="row"><div class="note">${(D.textos.cap_conc&&D.textos.cap_conc.corpo)||''} ${(D.textos.lead_satisfacao&&D.textos.lead_satisfacao.corpo)||''}</div></div>
 
- <div class="foot"><div><b>Fontes e método.</b> Expositores: planilha de estandes da organização. Público: painel de ingressos e controle de acesso (consulta de ${M.visitacao_corte}); entradas são registros diários e incluem público e equipe, não pessoas únicas. Resultados: pesquisa com expositores durante a feira (${M.pesquisa_n_respostas} entrevistas, ${N} empresas); valores por faixa somados pelo ponto médio; margem de erro aproximada de ±18 p.p. Versão completa: feisma-em-numeros.vercel.app</div>
+ <div class="foot"><div><b>Fontes e método.</b> Expositores: planilha de estandes da organização. Público: painel de ingressos e controle de acesso (consulta de ${M.visitacao_corte}); entradas são registros diários e incluem público e equipe, não pessoas únicas; o público estimado acrescenta 25% referente à circulação de expositores, conforme orientação da organização. Resultados: pesquisa com expositores durante a feira (${M.pesquisa_n_respostas} entrevistas, ${N} empresas); valores por faixa somados pelo ponto médio; margem de erro aproximada de ±18 p.p. Versão completa: feisma-em-numeros.vercel.app</div>
   <div class="sig"><b>Secretaria de Desenvolvimento Econômico e Inovação</b>Prefeitura Municipal de Santa Maria · RS<br>Realização da Feisma: CACISM · Prefeitura de Santa Maria</div></div>
  </div>`;
  fitMobile();
