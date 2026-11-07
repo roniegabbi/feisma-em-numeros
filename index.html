@@ -112,10 +112,10 @@ footer a{color:#fff}
  <div class="wrap brand">
   <img src="https://netqjehamlydexyasgfk.supabase.co/storage/v1/object/public/midia/prefeitura_logo/1782071804915_marca-prefeitura-santa-maria-2025-2028-horizontal-policromatica-uso-sobre-fundo-claro-3-.png" alt="Prefeitura de Santa Maria">
   <div><b>Feisma em Números</b><small>SMDEI · Prefeitura de Santa Maria</small></div>
-  <a class="back" href="https://www.santamariaemnumeros.com">♥ Santa Maria em Números ↗</a>
+  <a class="back" href="/ficha.html" style="background:var(--orange);color:#fff;border-color:var(--orange)">Ficha técnica (PDF)</a><a class="back" style="margin-left:0" href="https://www.santamariaemnumeros.com">♥ Santa Maria em Números ↗</a>
  </div>
  <nav class="chap wrap">
-  <a href="#expositores">Expositores</a><a href="#publico">Público</a><a href="#faturamento">Faturamento</a><a href="#prospeccao">Prospecção</a><a href="#satisfacao">Satisfação</a><a href="#parecer">Parecer econômico</a>
+  <a href="#expositores">Expositores</a><a href="#publico">Público</a><a href="#faturamento">Faturamento</a><a href="#prospeccao">Prospecção</a><a href="#satisfacao">Satisfação</a><a href="#parecer">Parecer econômico</a><a href="/ficha.html" style="color:var(--orange)">Ficha técnica ↓</a>
  </nav>
 </header>
 
@@ -135,7 +135,7 @@ footer a{color:#fff}
 
 <footer>
  <div class="wrap">
-  <div><b>Metodologia e fontes.</b> Perfil dos expositores: planilha de estandes da organização (out/2026). Público visitante: painel de ingressos e controle de acesso do evento; entradas são registros diários, incluem público e equipe e não representam pessoas únicas. Resultados: pesquisa com expositores durante a feira (<span id="f-n"></span>); valores por faixa somados pelo ponto médio; margem de erro aproximada de ±18 p.p. Contexto: IBGE (Censo 2022) e Mapa Econômico do RS, Jornal do Comércio (PIB municipal 2021).</div>
+  <div><b>Metodologia e fontes.</b> Perfil dos expositores: planilha de estandes da organização (out/2026). Público visitante: painel de ingressos e controle de acesso do evento; entradas são registros diários, incluem público e equipe e não representam pessoas únicas; o público estimado soma 25% às entradas, referente à circulação de expositores, conforme orientação da organização. Resultados: pesquisa com expositores durante a feira (<span id="f-n"></span>); valores por faixa somados pelo ponto médio; margem de erro aproximada de ±18 p.p. Contexto: IBGE (Censo 2022) e Mapa Econômico do RS, Jornal do Comércio (PIB municipal 2021).</div>
   <div>Iniciativa da <b>Secretaria de Município de Desenvolvimento Econômico e Inovação</b> · Prefeitura de Santa Maria, RS.<br><br><a href="https://www.santamariaemnumeros.com">♥ Santa Maria em Números ↗</a><br><span id="f-atual"></span></div>
  </div>
 </footer>
@@ -184,11 +184,13 @@ function render(){
   const M=D.meta,I=D.indicadores;
   document.getElementById('h-edicao').textContent=M.edicao;
   document.getElementById('h-periodo').textContent=`${M.periodo} · Santa Maria, RS`;
-  document.getElementById('hero-stats').innerHTML=['expositores','entradas','vendas_amostra','negocios_amostra'].map(k=>{const i=I[k];return `<div class="stat"><div class="v">${fmtInd(i)}</div><div class="l">${i.rotulo}</div><div class="n">${i.nota||''}</div></div>`}).join('');
+  const AJ0=Number(M.ajuste_expositores||0), E0=D.visitacao.reduce((a,r)=>a+r.entradas,0);
+  document.getElementById('hero-stats').innerHTML=['expositores','entradas','vendas_amostra','negocios_amostra'].map(k=>{const i=I[k];if(k==='entradas'&&AJ0)return `<div class="stat"><div class="v">${fmt(Math.round(E0*(1+AJ0)))}</div><div class="l">público estimado</div><div class="n">${fmt(E0)} entradas + ${fmt(AJ0*100)}% expositores · ${i.nota||''}</div></div>`;return `<div class="stat"><div class="v">${fmtInd(i)}</div><div class="l">${i.rotulo}</div><div class="n">${i.nota||''}</div></div>`}).join('');
   document.getElementById('f-n').textContent=`${M.pesquisa_n_respostas} entrevistas, ${M.pesquisa_n_empresas} empresas`;
   document.getElementById('f-atual').textContent=`Dados atualizados em ${M.atualizado_em}.`;
   const prev=M.visitacao_status==='prévia'?`<span class="badge">Prévia · ${M.visitacao_corte}</span>`:'';
   const vis=D.visitacao, entr=vis.reduce((a,r)=>a+r.entradas,0), pico=vis.reduce((a,r)=>r.entradas>a.entradas?r:a,vis[0]);
+  const AJ=Number(M.ajuste_expositores||0), est=Math.round(entr*(1+AJ));
   const fds=vis.slice(0,3).reduce((a,r)=>a+r.entradas,0), uteis=vis.slice(3).filter(r=>r.situacao==='realizado');
   const T=D.textos;
 
@@ -208,11 +210,12 @@ function render(){
   <section class="cap" id="publico"><div class="wrap">
    ${head('02','publico','Público visitante',prev)}
    <div class="kpis">
+    ${AJ?`<div class="kpi laranja"><div class="v">${fmt(est)}</div><div class="l">público estimado</div><div class="n">entradas + ${fmt(AJ*100)}% referente a expositores</div></div>`:''}
     <div class="kpi laranja"><div class="v">${fmt(entr)}</div><div class="l">entradas registradas</div><div class="n">${M.visitacao_status==='prévia'?'até '+M.visitacao_corte:'total do evento'}</div></div>
     <div class="kpi roxo"><div class="v">${fmt(pico.entradas)}</div><div class="l">pico diário</div><div class="n">${pico.dia} (${pico.dia_semana})</div></div>
     ${['ingressos_pagos','gratuitos','a_conferir','cracha_expositores'].map(kpi).join('')}
    </div>
-   ${card('c-vis','Entradas registradas por dia','Controle de acesso · contorno tracejado: capacidade do dia · inclui público e equipe; não são pessoas únicas',320)}
+   ${card('c-vis',AJ?'Público estimado por dia':'Entradas registradas por dia',(AJ?`Entradas registradas + ${fmt(AJ*100)}% referente a expositores (estimativa) · `:'Controle de acesso · ')+'contorno tracejado: capacidade do dia · não são pessoas únicas',320)}
    <div class="grid g3">
     ${card('c-ing','Ingressos pagos por tipo','Vendas confirmadas',200)}
     <div class="card"><h3>Ritmo da visitação</h3><div class="src">Fim de semana de abertura + Finados × demais dias</div>
@@ -290,7 +293,7 @@ function render(){
     <div class="line"></div>
     <b>Secretaria de Desenvolvimento Econômico e Inovação</b>
     Prefeitura Municipal de Santa Maria · RS
-    <div style="margin-top:22px"><button class="btn" onclick="window.print()">Imprimir / salvar em PDF</button> <a class="btn ghost" href="https://www.santamariaemnumeros.com">♥ Santa Maria em Números ↗</a></div>
+    <div style="margin-top:22px"><a class="btn" href="/ficha.html">Ficha técnica (PDF)</a> <button class="btn ghost" onclick="window.print()">Imprimir página</button> <a class="btn ghost" href="https://www.santamariaemnumeros.com">♥ Santa Maria em Números ↗</a></div>
    </div>
   </div></section>`;
 
@@ -300,12 +303,13 @@ function render(){
   hbar('c-pav','pavilhoes',{color:C.navy});
   // visitação
   new Chart(document.getElementById('c-vis'),{type:'bar',data:{labels:vis.map(r=>MOB()?[r.dia,r.dia_semana.split(' ·')[0]]:[r.dia,r.dia_semana]),datasets:[
-    {label:'Entradas registradas',data:vis.map(r=>r.situacao==='a realizar'?null:r.entradas),backgroundColor:vis.map(r=>r.situacao==='parcial'?C.purpleSoft:C.purple),borderRadius:8,borderSkipped:false,barPercentage:.55,order:1},
-    {label:'Capacidade do dia',data:vis.map(r=>r.capacidade),backgroundColor:'rgba(0,0,0,0)',borderColor:C.gray,borderWidth:1.5,borderDash:[4,3],borderRadius:8,borderSkipped:false,barPercentage:.75,grouped:false,order:2}]},
+    {label:'Entradas registradas',data:vis.map(r=>r.situacao==='a realizar'?null:r.entradas),backgroundColor:vis.map(r=>r.situacao==='parcial'?C.purpleSoft:C.purple),borderRadius:AJ?0:8,borderSkipped:false,barPercentage:.55,stack:'p',order:1},
+    ...(AJ?[{label:`Expositores (+${fmt(AJ*100)}%, estimativa)`,data:vis.map(r=>r.situacao==='a realizar'?null:Math.round(r.entradas*AJ)),backgroundColor:C.gold,borderRadius:{topLeft:8,topRight:8},borderSkipped:false,barPercentage:.55,stack:'p',order:1}]:[]),
+    {label:'Capacidade do dia',data:vis.map(r=>r.capacidade),backgroundColor:'rgba(0,0,0,0)',borderColor:C.gray,borderWidth:1.5,borderDash:[4,3],borderRadius:8,borderSkipped:false,barPercentage:.75,grouped:false,stack:'c',order:2}]},
     options:{maintainAspectRatio:false,plugins:{legend:{position:'top',align:'end'},tooltip:{callbacks:{afterBody:it=>{const r=vis[it[0].dataIndex];return r.situacao==='parcial'?'Dia parcial no corte':r.situacao==='a realizar'?'A realizar':''}}}},
-      scales:{x:{grid:{display:false},ticks:{color:'#4A3563',font:{size:MOB()?10:12},maxRotation:0}},y:{grid:{color:C.line},border:{display:false},ticks:{callback:v=>MOB()?fmt(v/1000)+' mil':fmt(v),font:{size:MOB()?10:12}}}}},
+      scales:{x:{stacked:true,grid:{display:false},ticks:{color:'#4A3563',font:{size:MOB()?10:12},maxRotation:0}},y:{stacked:true,grid:{color:C.line},border:{display:false},ticks:{callback:v=>MOB()?fmt(v/1000)+' mil':fmt(v),font:{size:MOB()?10:12}}}}},
     plugins:[{id:'vv',afterDatasetsDraw(ch){const{ctx}=ch;ctx.save();ctx.font=MOB()?'700 9px Inter':'700 12px Inter';ctx.fillStyle='#241433';ctx.textAlign='center';
-      ch.getDatasetMeta(0).data.forEach((b,i)=>{const r=vis[i];ctx.fillText(r.situacao==='a realizar'?(MOB()?'—':'a realizar'):(MOB()&&r.entradas>=1000?fmt(r.entradas/1000,1)+'k':fmt(r.entradas)),b.x,(r.situacao==='a realizar'?ch.scales.y.getPixelForValue(0):b.y)-8)});ctx.restore()}}]});
+      ch.getDatasetMeta(AJ?1:0).data.forEach((b,i)=>{const r=vis[i];const t=Math.round(r.entradas*(1+AJ));ctx.fillText(r.situacao==='a realizar'?(MOB()?'—':'a realizar'):(MOB()&&t>=1000?fmt(t/1000,1)+'k':fmt(t)),b.x,(r.situacao==='a realizar'?ch.scales.y.getPixelForValue(0):b.y)-8)});ctx.restore()}}]});
   hbar('c-ing','ingressos_tipo',{color:r=>r.rotulo.startsWith('Feisma')?C.purple:C.magenta});
   stack100('c-perf','perfil_publico',[C.green,C.gray,C.red]);
   hbar('c-orc','origem_contatos',{color:C.green,pct:true});
