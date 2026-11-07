@@ -91,6 +91,19 @@ footer b{color:#fff}
 footer a{color:#fff}
 .loading{padding:120px 0;text-align:center;color:var(--muted)}
 @media (max-width:900px){.hero .wrap,.g2,.g3,.g21,.par,.recs,footer .wrap{grid-template-columns:1fr}.brand .back{display:none}}
+@media (max-width:640px){
+ html{scroll-padding-top:96px}.wrap{padding:0 16px}
+ .brand{gap:10px;padding:8px 0}.brand img{height:26px}.brand b{font-size:15px}.brand small{font-size:11px}
+ nav.chap{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;gap:18px;padding:7px 16px 9px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+ nav.chap::-webkit-scrollbar{display:none}nav.chap a{white-space:nowrap;font-size:13px}
+ .hero .wrap{padding:40px 16px 36px;gap:24px}.hero p{font-size:15.5px}
+ .stats{gap:10px}.stat{padding:14px}.stat .v{font-size:22px}.stat .l{font-size:12px}
+ section.cap{padding:44px 0 10px}.lead{font-size:15px;margin-bottom:18px}
+ .kpis{grid-template-columns:1fr 1fr;gap:10px}.kpi{padding:14px 13px 12px}.kpi .v{font-size:22px}.kpi .l{font-size:12.5px}.kpi .n{font-size:11.5px}
+ .card{padding:16px 14px 14px}.card h3{font-size:16px}.big{font-size:34px}.big small{font-size:15px}
+ .par article{padding:18px}.par p{font-size:14.5px}.sign{padding:30px 0 44px}
+ table.t{font-size:13px}
+}
 @media print{header.top,nav.chap,.btn{display:none}.card,.kpi{box-shadow:none;border:1px solid var(--line)}section.cap{padding-top:28px;break-inside:avoid-page}}
 </style>
 </head>
@@ -141,18 +154,22 @@ const kpis=ks=>`<div class="kpis">${ks.map(kpi).join('')}</div>`;
 const card=(id,t,src,h,cap='')=>`<div class="card"><h3>${t}</h3><div class="src">${src}</div><div class="chart" style="height:${h}px"><canvas id="${id}"></canvas></div>${cap?`<div class="cap-txt">${cap}</div>`:''}</div>`;
 const head=(n,id,t,extra='')=>`<div class="cap-n">Capítulo ${n} · ${t}</div><h2>${D.textos['lead_'+id]?.titulo||t} ${extra}</h2><p class="lead">${D.textos['lead_'+id]?.corpo||''}</p>`;
 const S=g=>D.series[g]||[];
+const MOB=()=>innerWidth<640;
+function wrapL(t,max){if(!MOB()||t.length<=max)return t;const w=t.split(' ');const out=[];let cur='';for(const x of w){if((cur+' '+x).trim().length>max&&cur){out.push(cur);cur=x}else cur=(cur+' '+x).trim()}if(cur)out.push(cur);return out}
+function fitH(id,n,per){if(!MOB())return;const p=document.getElementById(id).parentElement;p.style.height=Math.max(parseInt(p.style.height),n*per)+'px'}
+const TX=(k,f='')=>(D.textos[k]&&D.textos[k].corpo)||f;
 const N=()=>Number(D.meta.pesquisa_n_empresas||27);
 
 function hbar(id,g,{color=C.purple,pct=false,hl=null,suffix=''}={}){
-  const s=S(g);const tot=pct?N():null;
+  const s=S(g);const tot=pct?N():null;fitH(id,s.length,36);
   new Chart(document.getElementById(id),{type:'bar',data:{labels:s.map(r=>r.rotulo),datasets:[{data:s.map(r=>r.valor),
     backgroundColor:s.map((r,i)=>typeof color==='function'?color(r,i):(r.destaque?C.orange:color)),borderRadius:5,borderSkipped:false,barPercentage:.78,categoryPercentage:.9}]},
-    options:{indexAxis:'y',maintainAspectRatio:false,layout:{padding:{right:56}},plugins:{legend:{display:false},
+    options:{indexAxis:'y',maintainAspectRatio:false,layout:{padding:{right:MOB()?(pct?64:34):56}},plugins:{legend:{display:false},
       tooltip:{callbacks:{label:c=>' '+fmt(c.raw)+suffix+(tot?` (${fmt(100*c.raw/tot)}% das empresas)`:'')}}},
-      scales:{x:{display:false,grid:{display:false}},y:{grid:{display:false},border:{display:false},ticks:{color:'#4A3563',font:{size:12}}}}},
-    plugins:[valueLabels(v=>fmt(v)+suffix+(tot?`  ·  ${fmt(100*v/tot)}%`:''))]});
+      scales:{x:{display:false,grid:{display:false}},y:{grid:{display:false},border:{display:false},ticks:{color:'#4A3563',font:{size:MOB()?11:12},callback:function(v){return wrapL(this.getLabelForValue(v),17)}}}}},
+    plugins:[valueLabels(v=>fmt(v)+suffix+(tot?(MOB()?` · ${fmt(100*v/tot)}%`:`  ·  ${fmt(100*v/tot)}%`):''))]});
 }
-function valueLabels(f){return{id:'vl',afterDatasetsDraw(ch){const{ctx}=ch;ctx.save();ctx.font='600 12px Inter';ctx.fillStyle='#241433';ctx.textBaseline='middle';
+function valueLabels(f){return{id:'vl',afterDatasetsDraw(ch){const{ctx}=ch;ctx.save();ctx.font=(MOB()?'600 11px':'600 12px')+' Inter';ctx.fillStyle='#241433';ctx.textBaseline='middle';
   ch.getDatasetMeta(0).data.forEach((b,i)=>{const v=ch.data.datasets[0].data[i];ctx.fillText(f(v),b.x+6,b.y)});ctx.restore()}}}
 function stack100(id,g,colors){
   const s=S(g);const tot=s.reduce((a,r)=>a+r.valor,0);
@@ -172,7 +189,7 @@ function render(){
   document.getElementById('f-atual').textContent=`Dados atualizados em ${M.atualizado_em}.`;
   const prev=M.visitacao_status==='prévia'?`<span class="badge">Prévia · ${M.visitacao_corte}</span>`:'';
   const vis=D.visitacao, entr=vis.reduce((a,r)=>a+r.entradas,0), pico=vis.reduce((a,r)=>r.entradas>a.entradas?r:a,vis[0]);
-  const fds=vis.slice(0,3).reduce((a,r)=>a+r.entradas,0);
+  const fds=vis.slice(0,3).reduce((a,r)=>a+r.entradas,0), uteis=vis.slice(3).filter(r=>r.situacao==='realizado');
   const T=D.textos;
 
   document.getElementById('app').innerHTML=`
@@ -200,7 +217,7 @@ function render(){
     ${card('c-ing','Ingressos pagos por tipo','Vendas confirmadas',200)}
     <div class="card"><h3>Ritmo da visitação</h3><div class="src">Fim de semana de abertura + Finados × demais dias</div>
       <div class="big">${fmt(100*fds/entr)}%<small> das entradas</small></div>
-      <div class="cap-txt">nos três primeiros dias (31/10 a 02/11), com média de ${fmt(fds/3)} entradas por dia. Entre 03 e 05/11, a média caiu para ${fmt(vis.slice(3,6).reduce((a,r)=>a+r.entradas,0)/3)}.</div></div>
+      <div class="cap-txt">nos três primeiros dias (31/10 a 02/11), com média de ${fmt(fds/3)} entradas por dia. Nos ${uteis.length} dias seguintes já encerrados, a média caiu para ${fmt(uteis.reduce((a,r)=>a+r.entradas,0)/Math.max(uteis.length,1))}.</div></div>
     <div class="card"><h3>O público pelo olhar dos expositores</h3><div class="src">Notas de 1 a 5</div>
       <div style="display:flex;gap:28px"><div><div class="big">${fmt(I.nota_volume.valor,1)}<small>/5</small></div><div class="cap-txt">volume de público</div></div>
       <div><div class="big" style="color:${C.orange}">${fmt(I.nota_qualidade.valor,1)}<small>/5</small></div><div class="cap-txt">qualidade do público como comprador</div></div></div></div>
@@ -221,7 +238,7 @@ function render(){
     <div class="card"><h3>O retorno cobriu o investimento?</h3><div class="src">Pesquisa com expositores</div><div class="chart" style="height:110px"><canvas id="c-cob"></canvas></div>
      <div style="display:flex;gap:30px;margin-top:14px"><div><div class="big">${fmtInd(I.venda_mediana)}</div><div class="cap-txt">venda mediana</div></div><div><div class="big">${fmtInd(I.invest_mediano)}</div><div class="cap-txt">investimento mediano</div></div></div></div>
    </div>
-   <div class="note warn"><b>Concentração.</b> Três empresas (varejo, outlet e veículos) somam ${fmtInd(I.concentracao)} das vendas estimadas. Para o expositor típico, a venda na feira não pagou o investimento: o retorno depende dos negócios encaminhados.</div>
+   <div class="note warn">${TX('cap_conc')}</div>
    <div class="card"><h3>Ordem de grandeza para os 235 expositores <span class="badge">Indicativo</span></h3><div class="src">Expansão simples da amostra · a amostra não é aleatória; use como ordem de grandeza</div>
     <table class="t"><tr><th></th><th class="r">Cenário conservador</th><th class="r">Cenário central</th></tr>
     <tr><td>Vendas fechadas durante a feira</td><td class="r">${fmtInd(I.universo_vendas_min)}</td><td class="r"><b>${fmtInd(I.universo_vendas_med)}</b></td></tr>
@@ -236,8 +253,8 @@ function render(){
     ${card('c-nov','Participação de clientes novos','Nº de empresas',180)}
     ${card('c-tip','Tipo de contato gerado','Respostas múltiplas · % das empresas',200)}
     ${card('c-mot','Por que expor na Feisma','Respostas múltiplas · % das empresas',220)}
-    ${card('c-por','Porte das empresas pesquisadas','Nº de empresas',200,'MEIs e microempresas são 41% da amostra: a feira é vitrine para pequenos negócios.')}
-    ${card('c-edi','Participações na Feisma','Nº de empresas',180,'Alta renovação: mais da metade estreou nesta edição.')}
+    ${card('c-por','Porte das empresas pesquisadas','Nº de empresas',200,TX('cap_porte'))}
+    ${card('c-edi','Participações na Feisma','Nº de empresas',180,TX('cap_edicoes'))}
    </div>
   </div></section>
 
@@ -249,11 +266,11 @@ function render(){
     <div style="display:grid;gap:16px;align-content:start">
      ${card('c-nps','Recomendação de 0 a 10','Vermelho: detratores (0-6) · cinza: neutros · roxo: promotores (9-10)',170)}
      ${card('c-ret','Pretende expor na próxima edição?','',100)}
-     ${card('c-cmp','Comparada a outras feiras','5 empresas não participam de outras feiras',100)}
+     ${card('c-cmp','Comparada a outras feiras',TX('cap_cmp'),100)}
     </div>
    </div>
    <div class="grid g2">
-    ${card('c-pvo','Confirmam a próxima edição, por porte','% das empresas que responderam "sim"',200,'As grandes empresas são as mais satisfeitas (recomendação média 9,0). Nenhuma empresa média confirmou o retorno.')}
+    ${card('c-pvo','Confirmam a próxima edição, por porte','% das empresas que responderam "sim"',200,TX('cap_pvo'))}
     ${card('c-prob','O que prejudicou o resultado','Respostas abertas codificadas · nº de menções',220)}
     ${card('c-mel','O que melhorar na próxima edição','Nº de menções',240)}
     ${card('c-man','O que manter','Nº de menções',160)}
@@ -282,13 +299,13 @@ function render(){
   hbar('c-ddd','ddd',{color:(r,i)=>[C.purple,C.purpleSoft,C.green,C.gold,C.orange,C.gray][i]});
   hbar('c-pav','pavilhoes',{color:C.navy});
   // visitação
-  new Chart(document.getElementById('c-vis'),{type:'bar',data:{labels:vis.map(r=>[r.dia,r.dia_semana]),datasets:[
+  new Chart(document.getElementById('c-vis'),{type:'bar',data:{labels:vis.map(r=>MOB()?[r.dia,r.dia_semana.split(' ·')[0]]:[r.dia,r.dia_semana]),datasets:[
     {label:'Entradas registradas',data:vis.map(r=>r.situacao==='a realizar'?null:r.entradas),backgroundColor:vis.map(r=>r.situacao==='parcial'?C.purpleSoft:C.purple),borderRadius:8,borderSkipped:false,barPercentage:.55,order:1},
     {label:'Capacidade do dia',data:vis.map(r=>r.capacidade),backgroundColor:'rgba(0,0,0,0)',borderColor:C.gray,borderWidth:1.5,borderDash:[4,3],borderRadius:8,borderSkipped:false,barPercentage:.75,grouped:false,order:2}]},
     options:{maintainAspectRatio:false,plugins:{legend:{position:'top',align:'end'},tooltip:{callbacks:{afterBody:it=>{const r=vis[it[0].dataIndex];return r.situacao==='parcial'?'Dia parcial no corte':r.situacao==='a realizar'?'A realizar':''}}}},
-      scales:{x:{grid:{display:false},ticks:{color:'#4A3563'}},y:{grid:{color:C.line},border:{display:false},ticks:{callback:v=>fmt(v)}}}},
-    plugins:[{id:'vv',afterDatasetsDraw(ch){const{ctx}=ch;ctx.save();ctx.font='700 12px Inter';ctx.fillStyle='#241433';ctx.textAlign='center';
-      ch.getDatasetMeta(0).data.forEach((b,i)=>{const r=vis[i];ctx.fillText(r.situacao==='a realizar'?'a realizar':fmt(r.entradas),b.x,(r.situacao==='a realizar'?ch.scales.y.getPixelForValue(0):b.y)-8)});ctx.restore()}}]});
+      scales:{x:{grid:{display:false},ticks:{color:'#4A3563',font:{size:MOB()?10:12},maxRotation:0}},y:{grid:{color:C.line},border:{display:false},ticks:{callback:v=>MOB()?fmt(v/1000)+' mil':fmt(v),font:{size:MOB()?10:12}}}}},
+    plugins:[{id:'vv',afterDatasetsDraw(ch){const{ctx}=ch;ctx.save();ctx.font=MOB()?'700 9px Inter':'700 12px Inter';ctx.fillStyle='#241433';ctx.textAlign='center';
+      ch.getDatasetMeta(0).data.forEach((b,i)=>{const r=vis[i];ctx.fillText(r.situacao==='a realizar'?(MOB()?'—':'a realizar'):(MOB()&&r.entradas>=1000?fmt(r.entradas/1000,1)+'k':fmt(r.entradas)),b.x,(r.situacao==='a realizar'?ch.scales.y.getPixelForValue(0):b.y)-8)});ctx.restore()}}]});
   hbar('c-ing','ingressos_tipo',{color:r=>r.rotulo.startsWith('Feisma')?C.purple:C.magenta});
   stack100('c-perf','perfil_publico',[C.green,C.gray,C.red]);
   hbar('c-orc','origem_contatos',{color:C.green,pct:true});
@@ -305,12 +322,13 @@ function render(){
   // likert
   const A=D.avaliacoes, Lc=[C.red,'#EFA0A4',C.gray,C.purpleSoft,C.purple], Ll=['1 · muito ruim','2','3 · regular','4','5 · excelente'];
   const pc=(a,k)=>100*a['n'+k]/(a.n1+a.n2+a.n3+a.n4+a.n5);
+  fitH('c-lik',A.length,44);
   new Chart(document.getElementById('c-lik'),{type:'bar',data:{labels:A.map(a=>a.aspecto),datasets:[
      {k:3,s:-1},{k:2,s:-1},{k:1,s:-1},{k:3,s:1,dup:1},{k:4,s:1},{k:5,s:1}].map(d=>({label:Ll[d.k-1],data:A.map(a=>d.s*pc(a,d.k)*(d.k===3?.5:1)),
        backgroundColor:Lc[d.k-1],borderColor:'#fff',borderWidth:1,borderSkipped:false,barPercentage:.75,_dup:!!d.dup,_k:d.k}))},
     options:{indexAxis:'y',maintainAspectRatio:false,
       plugins:{legend:{position:'top',labels:{filter:(l,cd)=>!cd.datasets[l.datasetIndex]._dup,sort:(a,b,cd)=>cd.datasets[a.datasetIndex]._k-cd.datasets[b.datasetIndex]._k}},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${fmt(Math.abs(c.raw)*(c.dataset.label.startsWith('3')?2:1))}%`,afterBody:it=>'Média: '+fmt(A[it[0].dataIndex].media,2)}}},
-      scales:{x:{stacked:true,min:-70,max:100,grid:{color:c=>c.tick.value===0?C.muted:C.line},ticks:{callback:v=>Math.abs(v)+'%'}},y:{stacked:true,grid:{display:false},ticks:{color:'#4A3563',callback:function(v){const a=A[v];return a.aspecto+'  '+fmt(a.media,1)}}}}}});
+      scales:{x:{stacked:true,min:-70,max:100,grid:{color:c=>c.tick.value===0?C.muted:C.line},ticks:{font:{size:MOB()?9:12},callback:v=>Math.abs(v)+'%'}},y:{stacked:true,grid:{display:false},ticks:{color:'#4A3563',font:{size:MOB()?10.5:12},callback:function(v){const a=A[v];return wrapL(a.aspecto+'  '+fmt(a.media,1),16)}}}}}});
   // nps
   const nd=S('nps_dist');
   new Chart(document.getElementById('c-nps'),{type:'bar',data:{labels:nd.map(r=>r.rotulo),datasets:[{data:nd.map(r=>r.valor),backgroundColor:nd.map(r=>+r.rotulo<=6?C.red:+r.rotulo<=8?C.gray:C.purple),borderRadius:4}]},
