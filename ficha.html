@@ -65,8 +65,8 @@ const k=(v,l,n='',t='')=>`<div class="k ${t}"><div class="n1">${v}</div><div cla
 let D;
 function render(){
  const M=D.meta,I=D.indicadores,V=D.visitacao,N=Number(M.pesquisa_n_empresas);
- const ent=V.reduce((a,r)=>a+r.entradas,0), pico=V.reduce((a,r)=>r.entradas>a.entradas?r:a,V[0]);
- const prev=M.visitacao_status==='prévia', AJ=Number(M.ajuste_expositores||0), est=Math.round(ent*(1+AJ));
+ const R=V.filter(r=>r.situacao!=='estimado'), estd=V.filter(r=>r.situacao==='estimado').reduce((a,r)=>a+r.entradas,0), ent=R.reduce((a,r)=>a+r.entradas,0), pico=R.reduce((a,r)=>r.entradas>a.entradas?r:a,R[0]);
+ const prev=M.visitacao_status==='prévia', AJ=Number(M.ajuste_expositores||0), est=Math.round((ent+estd)*(1+AJ));
  const inv=I.investimento.valor/1000, ven=I.vendas.valor, neg=I.negocios.valor, pat=Number(M.patrocinio_mi||0);
  const it=[pat&&[pat,'em patrocínios'],[inv,'investidos pelos expositores'],[ven,'vendidos durante a feira'],[neg,'em negócios a fechar em até 6 meses']].filter(Boolean);
  const pv=I.voltam?Math.round(100*I.voltam.valor/N):null;
@@ -88,9 +88,9 @@ function render(){
 
  <h2><i></i>O público ${prev?'<span class="badge">Prévia · '+M.visitacao_corte+'</span>':''}</h2>
  <div class="g">
-  ${AJ?k(fmt(est),'público estimado','entradas registradas + '+fmt(AJ*100)+'% de expositores','o big'):''}
-  ${k(fmt(ent),'entradas registradas',prev?'até '+M.visitacao_corte:'total do evento','o')}
-  ${k(fmt(pico.entradas),'pico em um dia',pico.dia+' ('+pico.dia_semana.split(' ·')[0]+')','o')}
+  ${AJ?k(fmt(est),'público estimado',(estd?fmt(ent)+' registradas + '+fmt(estd)+' estimadas (último dia) + ':'entradas registradas + ')+fmt(AJ*100)+'% de expositores','o big'):''}
+  ${k(fmt(ent),'entradas registradas',estd?'até '+R[R.length-1].dia:prev?'até '+M.visitacao_corte:'total do evento','o')}
+  ${k(fmt(pico.entradas),'maior dia registrado',pico.dia+' ('+pico.dia_semana.split(' ·')[0]+')','o')}
  </div>
 
  <h2><i></i>Os resultados para as empresas</h2>
