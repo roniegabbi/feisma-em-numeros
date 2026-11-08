@@ -196,8 +196,8 @@ function render(){
   document.getElementById('f-n').textContent=`${M.pesquisa_n_respostas} entrevistas, ${M.pesquisa_n_empresas} empresas`;
   document.getElementById('f-me').textContent=M.margem_erro||'8';document.getElementById('f-atual').textContent=`Dados atualizados em ${M.atualizado_em}.`;
   const prev=M.visitacao_status==='prévia'?`<span class="badge">Prévia · ${M.visitacao_corte}</span>`:'';
-  const vis=D.visitacao, entr=vis.reduce((a,r)=>a+r.entradas,0), pico=vis.reduce((a,r)=>r.entradas>a.entradas?r:a,vis[0]);
-  const AJ=Number(M.ajuste_expositores||0), est=Math.round(entr*(1+AJ));
+  const vis=D.visitacao, reg=vis.filter(r=>r.situacao!=='estimado'), estd=vis.filter(r=>r.situacao==='estimado').reduce((a,r)=>a+r.entradas,0), entr=reg.reduce((a,r)=>a+r.entradas,0), pico=reg.reduce((a,r)=>r.entradas>a.entradas?r:a,reg[0]);
+  const AJ=Number(M.ajuste_expositores||0), est=Math.round((entr+estd)*(1+AJ));
   const fds=vis.slice(0,3).reduce((a,r)=>a+r.entradas,0), uteis=vis.slice(3).filter(r=>r.situacao==='realizado');
   const T=D.textos;
 
@@ -217,8 +217,8 @@ function render(){
   <section class="cap" id="publico"><div class="wrap">
    ${head('02','publico','Público visitante',prev)}
    <div class="kpis">
-    ${AJ?`<div class="kpi laranja"><div class="v">${fmt(est)}</div><div class="l">público estimado</div><div class="n">entradas + ${fmt(AJ*100)}% referente a expositores</div></div>`:''}
-    <div class="kpi laranja"><div class="v">${fmt(entr)}</div><div class="l">entradas registradas</div><div class="n">${M.visitacao_status==='prévia'?'até '+M.visitacao_corte:'total do evento'}</div></div>
+    ${AJ?`<div class="kpi laranja"><div class="v">${fmt(est)}</div><div class="l">público estimado</div><div class="n">${estd?fmt(entr)+' registradas + '+fmt(estd)+' estimadas para o último dia ':'entradas '}+ ${fmt(AJ*100)}% referente a expositores</div></div>`:''}
+    <div class="kpi laranja"><div class="v">${fmt(entr)}</div><div class="l">entradas registradas</div><div class="n">${estd?'até '+reg[reg.length-1].dia+' · último dia estimado':M.visitacao_status==='prévia'?'até '+M.visitacao_corte:'total do evento'}</div></div>
     <div class="kpi roxo"><div class="v">${fmt(pico.entradas)}</div><div class="l">pico diário</div><div class="n">${pico.dia} (${pico.dia_semana})</div></div>
     ${['ingressos_pagos','gratuitos','a_conferir','cracha_expositores'].map(kpi).join('')}
    </div>
@@ -314,10 +314,10 @@ function render(){
   hbar('c-pav','pavilhoes',{color:C.navy});
   // visitação
   new Chart(document.getElementById('c-vis'),{type:'bar',data:{labels:vis.map(r=>MOB()?[r.dia,r.dia_semana.split(' ·')[0]]:[r.dia,r.dia_semana]),datasets:[
-    {label:'Entradas registradas',data:vis.map(r=>r.situacao==='a realizar'?null:r.entradas),backgroundColor:vis.map(r=>r.situacao==='parcial'?C.purpleSoft:C.purple),borderRadius:AJ?0:8,borderSkipped:false,barPercentage:.55,stack:'p',order:1},
+    {label:'Entradas registradas',data:vis.map(r=>r.situacao==='a realizar'?null:r.entradas),backgroundColor:vis.map(r=>(r.situacao==='parcial'||r.situacao==='estimado')?C.purpleSoft:C.purple),borderRadius:AJ?0:8,borderSkipped:false,barPercentage:.55,stack:'p',order:1},
     ...(AJ?[{label:`Expositores (+${fmt(AJ*100)}%, estimativa)`,data:vis.map(r=>r.situacao==='a realizar'?null:Math.round(r.entradas*AJ)),backgroundColor:C.gold,borderRadius:{topLeft:8,topRight:8},borderSkipped:false,barPercentage:.55,stack:'p',order:1}]:[]),
     {label:'Capacidade do dia',data:vis.map(r=>r.capacidade),backgroundColor:'rgba(0,0,0,0)',borderColor:C.gray,borderWidth:1.5,borderDash:[4,3],borderRadius:8,borderSkipped:false,barPercentage:.75,grouped:false,stack:'c',order:2}]},
-    options:{maintainAspectRatio:false,plugins:{legend:{position:'top',align:'end'},tooltip:{callbacks:{afterBody:it=>{const r=vis[it[0].dataIndex];return r.situacao==='parcial'?'Dia parcial no corte':r.situacao==='a realizar'?'A realizar':''}}}},
+    options:{maintainAspectRatio:false,plugins:{legend:{position:'top',align:'end'},tooltip:{callbacks:{afterBody:it=>{const r=vis[it[0].dataIndex];return r.situacao==='estimado'?'Estimativa (dia ainda sem relatório)':r.situacao==='parcial'?'Dia parcial no corte':r.situacao==='a realizar'?'A realizar':''}}}},
       scales:{x:{stacked:true,grid:{display:false},ticks:{color:'#4A3563',font:{size:MOB()?10:12},maxRotation:0}},y:{stacked:true,grid:{color:C.line},border:{display:false},ticks:{callback:v=>MOB()?fmt(v/1000)+' mil':fmt(v),font:{size:MOB()?10:12}}}}},
     plugins:[{id:'vv',afterDatasetsDraw(ch){const{ctx}=ch;ctx.save();ctx.font=MOB()?'700 9px Inter':'700 12px Inter';ctx.fillStyle='#241433';ctx.textAlign='center';
       ch.getDatasetMeta(AJ?1:0).data.forEach((b,i)=>{const r=vis[i];const t=Math.round(r.entradas*(1+AJ));ctx.fillText(r.situacao==='a realizar'?(MOB()?'—':'a realizar'):(MOB()&&t>=1000?fmt(t/1000,1)+'k':fmt(t)),b.x,(r.situacao==='a realizar'?ch.scales.y.getPixelForValue(0):b.y)-8)});ctx.restore()}}]});
