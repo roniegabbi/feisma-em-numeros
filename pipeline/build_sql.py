@@ -135,6 +135,8 @@ if '--so-pesquisa' in sys.argv:
     # atualização automática: não mexe em nada que venha do relatório de visitação
     VIS_IND = {'entradas', 'ingressos_pagos', 'gratuitos', 'a_conferir', 'cracha_expositores'}
     meta_p = {k: v for k, v in meta.items() if k in ('margem_erro', 'pesquisa_n_respostas', 'pesquisa_n_empresas')}
+    from datetime import datetime; from zoneinfo import ZoneInfo
+    meta_p['atualizado_em'] = datetime.now(ZoneInfo('America/Sao_Paulo')).strftime('%d/%m/%Y')
     sql = ["insert into meta values " + ",".join(f"({q(k)},{q(v)})" for k, v in meta_p.items()) + " on conflict (chave) do update set valor=excluded.valor"]
     ind_p = [r for r in ind if r[0] not in VIS_IND]
     sql.append("insert into indicadores values " + ",".join(
